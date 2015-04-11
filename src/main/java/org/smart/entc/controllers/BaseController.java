@@ -20,4 +20,20 @@ public class BaseController {
         return "index";
 
     }
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String home() {
+        return "home";
+
+    }
+    @RequestMapping(value = "/1stfloor", method = RequestMethod.GET)
+    public String first() {
+        return "firstfloor";
+
+    }
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public String info() {
+        return "info";
+
+    }
 }
