@@ -117,7 +117,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a href="FypSample.html">
+                    <a href="html/FypSample.html">
                         <i class="fa fa-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
@@ -224,7 +224,7 @@
             <div class="col-sm-6">
                 <section class="panel">
                     <div class="panel-body thumbnail">
-                        <a href="1st.html">
+                        <a href="1stfloor">
                             <img src="resources/images/1st.png" alt="">
                         </a>
                     </div>
@@ -236,7 +236,7 @@
             <div class="col-sm-6">
                 <section class="panel">
                     <div class="panel-body thumbnail">
-                        <a href="2nd.html">
+                        <a href="2ndfloor">
                             <img src="resources/images/2nd.png" alt="">
                         </a>
                     </div>
@@ -245,7 +245,7 @@
             <div class="col-sm-6">
                 <section class="panel">
                     <div class="panel-body thumbnail">
-                        <a href="3rd.html">
+                        <a href="3rdfloor">
                             <img src="resources/images/3rd.png" alt="">
                         </a>
                     </div>

@@ -117,7 +117,7 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a href="FypSample.html">
+                    <a href="html/FypSample.html">
                         <i class="fa fa-dashboard"></i>
                         <span>Dashboard</span>
                     </a>

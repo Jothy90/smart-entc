@@ -20,115 +20,6 @@
     <!-- Custom styles for this template -->
     <link href="resources/css/style.css" rel="stylesheet">
     <link href="resources/css/style-responsive.css" rel="stylesheet"/>
-
-    <!--clock css-->
-    <link href="resources/js/css3clock/css/style.css" rel="stylesheet">
-
-    <%--<!-- Custom styles for counter template -->
-    <link href="resources/counter/css/soon.css" rel="stylesheet">
-
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
---%>
-    <%--Google pie chart for weather meter--%>
-    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-    <script type='text/javascript'>
-        google.load('visualization', '1', {packages: ['gauge']});
-        google.setOnLoadCallback(drawChart);
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Label', 'Value'],
-                ['\'C', 33]
-
-            ]);
-
-            var options = {
-                min: 0, max: 50,
-                width: 500, height: 165,
-                greenFrom: 20, greenTo: 35,
-                redFrom: 35, redTo: 50,
-                yellowFrom: 0, yellowTo: 20,
-                minorTicks: 3
-            };
-
-            var chart = new google.visualization.Gauge(document.getElementById('temp_meter'));
-            chart.draw(data, options);
-
-            var data1 = google.visualization.arrayToDataTable([
-                ['Label', 'Value'],
-                ['%', 40]
-
-            ]);
-
-            var options1 = {
-                min: 0, max: 100,
-                width: 500, height: 165,
-                redFrom: 90, redTo: 100,
-                yellowFrom: 45, yellowTo: 90,
-                greenFrom: 0, greenTo: 45,
-                minorTicks: 5
-            };
-
-            var chart1 = new google.visualization.Gauge(document.getElementById('hum_meter'));
-            chart1.draw(data1, options1);
-        }
-    </script>
-
-    <%--MQTT Subscriber--%>
-    <script src="resources/js/mqttws31.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        //settings BEGIN
-        var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
-        var MQTTport = 8000;
-        var MQTTsubTopic1 = 'Department/ENTC1'; //works with wildcard # and + topics dynamically now
-        var MQTTsubTopic2 = 'Department/ENTC2';
-        var MQTTsubTopic3 = 'Department/ENTC3';
-        //settings END
-
-        var dataTopics = new Array();
-
-        //mqtt broker
-        var client = new Paho.MQTT.Client(MQTTbroker, MQTTport,
-                "myclientid_" + parseInt(Math.random() * 100, 10));
-        client.onMessageArrived = onMessageArrived;
-        client.onConnectionLost = onConnectionLost;
-        //connect to broker is at the bottom of the init() function !!!!
-
-
-        //mqtt connecton options including the mqtt broker subscriptions
-        var options = {
-            timeout: 3,
-            onSuccess: function () {
-                console.log("mqtt connected");
-                // Connection succeeded; subscribe to our topics
-                client.subscribe(MQTTsubTopic1, {qos: 1});
-                client.subscribe(MQTTsubTopic2, {qos: 1});
-                client.subscribe(MQTTsubTopic3, {qos: 1});
-            },
-            onFailure: function (message) {
-                console.log("Connection failed, ERROR: " + message.errorMessage);
-                //window.setTimeout(location.reload(),20000); //wait 20seconds before trying to connect again.
-            }
-        };
-
-        //can be used to reconnect on connection lost
-        function onConnectionLost(responseObject) {
-            console.log("connection lost: " + responseObject.errorMessage);
-            window.setTimeout(location.reload(), 20000); //wait 20seconds before trying to connect again.
-        };
-
-        //what is done when a message arrives from the broker
-        function onMessageArrived(message) {
-            console.log(message.destinationName, '', message.payloadString);
-
-
-        };
-
-        //check if a real number
-        function isNumber(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-        };
-    </script>
 </head>
 
 <body>
@@ -319,97 +210,33 @@
 <section id="main-content">
     <section class="wrapper">
         <!-- page start-->
-
-        <div class="row thumbnail">
-            <div class="col-sm-7">
-                <section class="panel">
-                    <div class="panel-body thumbnail">
-                        <div class="top-stats-panel thumbnail">
-                            <div id="peopleCount" class="mini-stat-info" style="font-size: 80px; text-align: center">
-                                005
-                                <span>Peoples</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="col-sm-6" id='temp_meter'></div>
-                            <div class="col-sm-6" id='hum_meter'></div>
-                            <div class="lead col-sm-6" style="margin-left: 20px;">Temperature</div>
-                            <div class="lead col-sm-5 "> Humidity Level</div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div class="col-sm-5">
-                <section class="panel">
-                    <div class="panel-body thumbnail">
-                        <div class="mini-stat clearfix thumbnail center-block">
-                            <span class="mini-stat-icon orange"><i class="fa fa-gavel"></i></span>
-
-                            <div class="mini-stat-info">
-                                <span>Madam In</span>
-                                Meeting Going
-                            </div>
-                        </div>
-                        <div class="profile-nav alt">
-                            <section class="panel">
-                                <div class="user-heading alt clock-row terques-bg">
-                                    <h1>December 14</h1>
-
-                                    <p class="text-left">2014, Friday</p>
-
-                                    <p class="text-left">7:53 PM</p>
-                                </div>
-                                <ul id="clock">
-                                    <li id="sec"></li>
-                                    <li id="hour"></li>
-                                    <li id="min"></li>
-                                </ul>
-                            </section>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
         <div class="row">
-            <div class="col-md-3">
-                <div class="mini-stat clearfix">
-                    <span class="mini-stat-icon orange"><i class="fa fa-clock-o"></i></span>
+            <div class="col-sm-12">
+                <section class="panel">
+                    <div class="panel-body thumbnail">
+                        <img src="resources/images/3rd.png" width="715" height="506" border="0" usemap="#map"/>
 
-                    <div class="mini-stat-info">
-                        <span><a href="temperature">See</a></span>
-                         Temperature
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mini-stat clearfix">
-                    <span class="mini-stat-icon tar"><i class="fa fa-cloud"></i></span>
+                        <map name="map">
+                            <area shape="poly" title="MicroWave Lab"
+                                  coords="433,173,432,173,503,101,584,101,585,269,573,281,475,283,435,244,435,242,433,172"
+                                  alt="dkd" target="microkk" href="info"/>
+                            <area shape="poly" title="Dialog Lab"
+                                  coords="292,174,416,174,417,242,412,260,307,260,292,242" alt="dd"
+                                  target="lldd" href="dialog"/>
+                            <area shape="poly" title="Communication" coords="10,272,91,191,213,311,132,395"
+                                  href="info"/>
 
-                    <div class="mini-stat-info">
-                        <span><a href="humidity">See</a></span>
-                        Humidity Variations
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mini-stat clearfix">
-                    <span class="mini-stat-icon pink"><i class="fa fa-sun-o"></i></span>
+                            <area shape="poly" title="PostGraduate Lab"
+                                  coords="188,350,242,296,288,294,288,435,218,437,219,383" alt="ddd"
+                                  target="dd" href="info"/>
+                            <area shape="poly" title="CAD Lab" coords="291,293,357,294,358,435,290,434,291,434"
+                                  href="info"/>
 
-                    <div class="mini-stat-info">
-                        <span><a href="light">See</a></span>
-                        Light Variations
+                            <area shape="poly" title="Seminar Room"
+                                  coords="590,102,642,103,643,241,576,309,527,314,530,285,575,283,588,270" href="info"/>
+                        </map>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mini-stat clearfix">
-                    <span class="mini-stat-icon green"><i class="fa fa-volume-up"></i></span>
-
-                    <div class="mini-stat-info">
-                        <span><a href="noise">See</a></span>
-                        Noise Variations
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
         <!-- page end-->
@@ -431,17 +258,6 @@
 
 <!--common script init for all pages-->
 <script src="resources/js/scripts.js"></script>
-<!--clock init-->
-<script src="resources/js/css3clock/js/css3clock.js"></script>
-
-<script src="resources/js/gauge/gauge.js"></script>
-
-
-<%--<script type="text/javascript" src="resources/counter/js/modernizr.custom.js"></script>
-
-<script src="resources/counter/js/soon/plugins.js"></script>
-<script src="resources/counter/js/soon/jquery.themepunch.revolution.min.js"></script>
-<script src="resources/counter/js/soon/custom.js"></script>--%>
 
 </body>
 

@@ -31,6 +31,13 @@ public class BaseController {
         return "pages/firstfloor";
 
     }
+
+    @RequestMapping(value = "/3rdfloor", method = RequestMethod.GET)
+    public String third() {
+        return "pages/thirdfloor";
+
+    }
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public String info() {
         return "pages/info";
