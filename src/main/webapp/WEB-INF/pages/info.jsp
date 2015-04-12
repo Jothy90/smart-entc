@@ -73,6 +73,62 @@
             chart1.draw(data1, options1);
         }
     </script>
+
+    <%--MQTT Subscriber--%>
+    <script src="resources/js/mqttws31.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        //settings BEGIN
+        var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
+        var MQTTport = 8000;
+        var MQTTsubTopic1 = 'Department/ENTC1'; //works with wildcard # and + topics dynamically now
+        var MQTTsubTopic2 = 'Department/ENTC2';
+        var MQTTsubTopic3 = 'Department/ENTC3';
+        //settings END
+
+        var dataTopics = new Array();
+
+        //mqtt broker
+        var client = new Paho.MQTT.Client(MQTTbroker, MQTTport,
+                "myclientid_" + parseInt(Math.random() * 100, 10));
+        client.onMessageArrived = onMessageArrived;
+        client.onConnectionLost = onConnectionLost;
+        //connect to broker is at the bottom of the init() function !!!!
+
+
+        //mqtt connecton options including the mqtt broker subscriptions
+        var options = {
+            timeout: 3,
+            onSuccess: function () {
+                console.log("mqtt connected");
+                // Connection succeeded; subscribe to our topics
+                client.subscribe(MQTTsubTopic1, {qos: 1});
+                client.subscribe(MQTTsubTopic2, {qos: 1});
+                client.subscribe(MQTTsubTopic3, {qos: 1});
+            },
+            onFailure: function (message) {
+                console.log("Connection failed, ERROR: " + message.errorMessage);
+                //window.setTimeout(location.reload(),20000); //wait 20seconds before trying to connect again.
+            }
+        };
+
+        //can be used to reconnect on connection lost
+        function onConnectionLost(responseObject) {
+            console.log("connection lost: " + responseObject.errorMessage);
+            window.setTimeout(location.reload(), 20000); //wait 20seconds before trying to connect again.
+        };
+
+        //what is done when a message arrives from the broker
+        function onMessageArrived(message) {
+            console.log(message.destinationName, '', message.payloadString);
+
+
+        };
+
+        //check if a real number
+        function isNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        };
+    </script>
 </head>
 
 <body>
@@ -269,7 +325,7 @@
                 <section class="panel">
                     <div class="panel-body thumbnail">
                         <div class="top-stats-panel thumbnail">
-                            <div class="mini-stat-info" style="font-size: 80px; text-align: center">
+                            <div id="peopleCount" class="mini-stat-info" style="font-size: 80px; text-align: center">
                                 005
                                 <span>Peoples</span>
                             </div>
@@ -320,7 +376,7 @@
                     <span class="mini-stat-icon orange"><i class="fa fa-clock-o"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="john">See</a></span>
+                        <span><a href="temperature">See</a></span>
                          Temperature
                     </div>
                 </div>
@@ -330,7 +386,7 @@
                     <span class="mini-stat-icon tar"><i class="fa fa-cloud"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="john">See</a></span>
+                        <span><a href="humidity">See</a></span>
                         Humidity Variations
                     </div>
                 </div>
@@ -340,7 +396,7 @@
                     <span class="mini-stat-icon pink"><i class="fa fa-sun-o"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="john">See</a></span>
+                        <span><a href="light">See</a></span>
                         Light Variations
                     </div>
                 </div>
@@ -350,7 +406,7 @@
                     <span class="mini-stat-icon green"><i class="fa fa-volume-up"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="john">See</a></span>
+                        <span><a href="noise">See</a></span>
                         Noise Variations
                     </div>
                 </div>

@@ -17,23 +17,47 @@ public class BaseController {
     public String welcomeName(@PathVariable String name, ModelMap model) {
 
         model.addAttribute("message", "FYP-11 Web Project + Spring 3 MVC - you are now at page: " + name);
-        return "index";
+        return "pages/index";
 
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home() {
-        return "home";
+        return "pages/home";
 
     }
     @RequestMapping(value = "/1stfloor", method = RequestMethod.GET)
     public String first() {
-        return "firstfloor";
+        return "pages/firstfloor";
 
     }
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public String info() {
-        return "info";
+        return "pages/info";
+
+    }
+
+    @RequestMapping(value = "/light", method = RequestMethod.GET)
+    public String light() {
+        return "graph/lightGraph";
+
+    }
+
+    @RequestMapping(value = "/humidity", method = RequestMethod.GET)
+    public String humidity() {
+        return "graph/humidityGraph";
+
+    }
+
+    @RequestMapping(value = "/temperature", method = RequestMethod.GET)
+    public String temperature() {
+        return "graph/temperatureGraph";
+
+    }
+
+    @RequestMapping(value = "/noise", method = RequestMethod.GET)
+    public String noise() {
+        return "graph/noiseGraph";
 
     }
 }

@@ -6,7 +6,7 @@
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <!--<script type="text/javascript" src="jquery.min.js"></script>-->
-<script src="../../resources/js/mqttws31.js" type="text/javascript"></script>
+<script src="../../../resources/js/mqttws31.js" type="text/javascript"></script>
 <script type="text/javascript">
 /*
 by @bordignon on twitter
@@ -84,7 +84,7 @@ public broker and topic you can use for testing.
  //var thenum = message.payloadString.replace( /^\D+/g, ''); //remove any text spaces from the message
                 var inData=message.payloadString;
                 var dataArray=inData.split("  ");
-                thenum=dataArray[2];
+                thenum=dataArray[8];
                 nextnum=dataArray[4];
                 var plotMqtt = [myEpoch, Number(thenum)]; //create the array
                 var nextPlot = [myEpoch, Number(nextnum)];
@@ -134,7 +134,7 @@ public broker and topic you can use for testing.
                     defaultSeriesType: 'spline'
                 },
                 title: {
-                    text: 'MQTT topic - Temperature'
+                    text: 'MQTT topic - Motion Sensor-Analog&Digital'
                 },
                 subtitle: {
   text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic

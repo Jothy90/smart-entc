@@ -6,7 +6,7 @@
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <!--<script type="text/javascript" src="jquery.min.js"></script>-->
-<script src="../../resources/js/mqttws31.js" type="text/javascript"></script>
+<script src="../../../resources/js/mqttws31.js" type="text/javascript"></script>
 <script type="text/javascript">
 /*
 by @bordignon on twitter
@@ -25,7 +25,10 @@ public broker and topic you can use for testing.
 //settings BEGIN
         var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
         var MQTTport = 8000;
-        var MQTTsubTopic = 'test'; //works with wildcard # and + topics dynamically now
+        var MQTTsubTopic1 = 'Department/ENTC1'; //works with wildcard # and + topics dynamically now
+	var MQTTsubTopic2 = 'Department/ENTC2';
+	var MQTTsubTopic3 = 'Department/ENTC3';
+
 //settings END
 
         var chart; // global variuable for chart
@@ -45,7 +48,9 @@ public broker and topic you can use for testing.
                 onSuccess: function () {
                         console.log("mqtt connected");
                         // Connection succeeded; subscribe to our topics
-                        client.subscribe(MQTTsubTopic, {qos: 1});
+                        client.subscribe(MQTTsubTopic1, {qos: 1});
+			client.subscribe(MQTTsubTopic2, {qos: 1});
+			client.subscribe(MQTTsubTopic3, {qos: 1});
                 },
                 onFailure: function (message) {
                         console.log("Connection failed, ERROR: " + message.errorMessage);
@@ -84,7 +89,7 @@ public broker and topic you can use for testing.
  //var thenum = message.payloadString.replace( /^\D+/g, ''); //remove any text spaces from the message
                 var inData=message.payloadString;
                 var dataArray=inData.split("  ");
-                thenum=dataArray[6];
+                thenum=dataArray[4];
                 nextnum=dataArray[4];
                 var plotMqtt = [myEpoch, Number(thenum)]; //create the array
                 var nextPlot = [myEpoch, Number(nextnum)];
@@ -134,10 +139,10 @@ public broker and topic you can use for testing.
                     defaultSeriesType: 'spline'
                 },
                 title: {
-                    text: 'MQTT topic - Noise Sensor'
+                    text: 'MQTT topic - Humidity'
                 },
                 subtitle: {
-  text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic
+  text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic1
                         },
                 xAxis: {
                     type: 'datetime',
