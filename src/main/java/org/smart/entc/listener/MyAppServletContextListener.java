@@ -43,7 +43,7 @@ public class MyAppServletContextListener
         //TODO:MAIN ALGORITHM
         String nodeName=s.replace(M2MIO_DOMAIN+"/","");
         Node node= DataLayer.getNodeByName(nodeName);
-        if(node!=null){
+        if(node==null){
             node=new Node();
             node.setName(nodeName);
             node.setType(1);

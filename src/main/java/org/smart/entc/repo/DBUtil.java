@@ -1,6 +1,7 @@
 package org.smart.entc.repo;
 
 import com.mysql.jdbc.Connection;
+import org.slf4j.LoggerFactory;
 import org.smart.entc.repo.object.Node;
 import org.smart.entc.repo.object.User;
 
@@ -9,15 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- * Project YIT DIA
- * Created by jaykrish on 5/25/14.
- */
-public class DiaDBUtil {
-    private static final Logger LOGGER = Logger.getLogger(DiaDBUtil.class.getName());
+public class DBUtil {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DBConnector.class);
 
     /**
      * Create Device instance by device resultSet on current index.
@@ -29,7 +24,7 @@ public class DiaDBUtil {
 
         Node node = null;
         try {
-            Connection con = DiaDBConnector.getConnection();
+            Connection con = DBConnector.getConnection();
             ResultSet resultSet = sqlQuery(con, sql);
             if (resultSet.next()) {
                 node = new Node();
@@ -46,7 +41,7 @@ public class DiaDBUtil {
             resultSet.close();
             con.close();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQLException: " + e);
+            LOGGER.error("SQLException: " + e);
         }
         return node;
     }
@@ -62,7 +57,7 @@ public class DiaDBUtil {
         List<Node> nodeList = new ArrayList<Node>();
         Node node;
         try {
-            Connection con = DiaDBConnector.getConnection();
+            Connection con = DBConnector.getConnection();
             ResultSet resultSet = sqlQuery(con, sql);
             while(resultSet.next()) {
                 node = new Node();
@@ -80,7 +75,7 @@ public class DiaDBUtil {
             resultSet.close();
             con.close();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQLException: " + e);
+            LOGGER.error("SQLException: " + e);
         }
         return nodeList;
     }
@@ -96,7 +91,7 @@ public class DiaDBUtil {
 
         User user =null;
         try {
-            Connection con = DiaDBConnector.getConnection();
+            Connection con = DBConnector.getConnection();
             ResultSet resultSet = sqlQuery(con, sql);
             if (resultSet.next()) {
                 user= new User();
@@ -107,7 +102,7 @@ public class DiaDBUtil {
             resultSet.close();
             con.close();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQLException: " + e);
+            LOGGER.error("SQLException: " + e);
         }
         return user;
     }
