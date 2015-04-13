@@ -5,6 +5,8 @@ package org.smart.entc.listener;
  */
 
 import org.eclipse.paho.client.mqttv3.*;
+import org.smart.entc.repo.DataLayer;
+import org.smart.entc.repo.object.Node;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -39,26 +41,46 @@ public class MyAppServletContextListener
         System.out.println("-------------------------------------------------");
 
         //TODO:MAIN ALGORITHM
-        int noOfPeople = 0;
+        String nodeName=s.replace(M2MIO_DOMAIN+"/","");
+        Node node= DataLayer.getNodeByName(nodeName);
+        if(node!=null){
+            node=new Node();
+            node.setName(nodeName);
+            node.setType(1);
+            DataLayer.add(node);
+        }
         String[] readings = new String(mqttMessage.getPayload()).split(" ");
         for (String ss : readings) {
             String[] reading = ss.split(":");
             switch (Integer.parseInt(reading[0])) {
                 case 1:
-
+                    //Temperature
+                    node.setTemperature(Integer.parseInt(reading[1]));
+                    DataLayer.updateNodeTemperature(node);
                     break;
                 case 2:
-
+                    //Humidity
+                    node.setHumidity(Integer.parseInt(reading[1]));
+                    DataLayer.updateNodeHumidity(node);
                     break;
                 case 3:
+                    //Light
+                    node.setLight(Integer.parseInt(reading[1]));
+                    DataLayer.updateNodeLight(node);
                     break;
                 case 4:
-                    noOfPeople = noOfPeople + Integer.parseInt(reading[1]);
+                    //People Count
+                    node.setPeopleCount(node.getPeopleCount()+ Integer.parseInt(reading[1]));
+                    DataLayer.updatePeopleCount(node);
                     break;
                 case 5:
+                    //Noise
+                    node.setNoise(Integer.parseInt(reading[1]));
+                    DataLayer.updateNodeNoise(node);
                     break;
             }
         }
+
 
 
         //Publish for Applications
