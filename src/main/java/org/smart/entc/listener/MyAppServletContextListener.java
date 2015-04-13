@@ -4,10 +4,10 @@ package org.smart.entc.listener;
  * Created by john on 4/12/15.
  */
 
+import org.eclipse.paho.client.mqttv3.*;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
-import org.eclipse.paho.client.mqttv3.*;
 
 public class MyAppServletContextListener
         implements ServletContextListener, MqttCallback {
@@ -15,12 +15,12 @@ public class MyAppServletContextListener
     MqttClient myClient;
     MqttConnectOptions connOpt;
 
-    static final String BROKER_URL = "192.248.10.70:8000";
+    static final String BROKER_URL = "tcp://192.248.10.70:1883";
     static final String M2MIO_DOMAIN = "Department";
     static final String M2MIO_STUFF = "ENTC1";
     //static final String M2MIO_THING = "myclientid_"+Math.random() * 100;
-    static final String M2MIO_USERNAME = "";
-    static final String M2MIO_PASSWORD_MD5 = "";
+    /*static final String M2MIO_USERNAME = "";
+    static final String M2MIO_PASSWORD_MD5 = "";*/
 
     /**
      * connectionLost
@@ -69,20 +69,22 @@ public class MyAppServletContextListener
 
     public void runClient() {
         // setup MQTT Client
-        String clientID = "myclientid_"+Math.random() * 100;
+        String clientID = "myclientid_"+(int)(Math.random() * 100);
+        System.out.println(clientID);
         connOpt = new MqttConnectOptions();
 
         connOpt.setCleanSession(true);
         connOpt.setKeepAliveInterval(30);
-        connOpt.setUserName(M2MIO_USERNAME);
-        connOpt.setPassword(M2MIO_PASSWORD_MD5.toCharArray());
+        /*connOpt.setUserName(M2MIO_USERNAME);
+        connOpt.setPassword(M2MIO_PASSWORD_MD5.toCharArray());*/
 
         // Connect to Broker
         try {
             myClient = new MqttClient(BROKER_URL, clientID);
-            myClient.setCallback(this);
             myClient.connect(connOpt);
+            //myClient.setCallback(this);
         } catch (MqttException e) {
+            System.out.println("Exception in MQTT");
             e.printStackTrace();
             System.exit(-1);
         }

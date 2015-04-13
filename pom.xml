@@ -18,7 +18,7 @@
     <repositories>
         <repository>
             <id>Eclipse Paho Repo</id>
-            <url>http://repo.springsource.org/plugins-release/org/eclipse/paho/mqtt-client/0.4.0/</url>
+            <url>https://repo.eclipse.org/content/repositories/paho-releases/</url>
         </repository>
     </repositories>
 
@@ -89,17 +89,17 @@
         </dependency>
 
        <!-- Mqtt client-->
-        <dependency>
-            <groupId>org.eclipse.paho</groupId>
-            <artifactId>mqtt-client</artifactId>
-            <version>0.4.0</version>
-        </dependency>
-
         <!--<dependency>
             <groupId>org.eclipse.paho</groupId>
-            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
-            <version>%VERSION%</version>
+            <artifactId>mqtt-client</artifactId>
+            <version>1.0.1</version>
         </dependency>-->
+
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
     </dependencies>
 
