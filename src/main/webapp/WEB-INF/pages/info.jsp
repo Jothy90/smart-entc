@@ -86,9 +86,9 @@
         //settings BEGIN
         var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
         var MQTTport = 8000;
-        var MQTTsubTopic1 = 'Department/ENTC1'; //works with wildcard # and + topics dynamically now
-        var MQTTsubTopic2 = 'Department/ENTC2';
-        var MQTTsubTopic3 = 'Department/ENTC3';
+        var MQTTsubTopic1 = 'Server/ENTC1'; //works with wildcard # and + topics dynamically now
+        var MQTTsubTopic2 = 'Server/ENTC2';
+        var MQTTsubTopic3 = 'Server/ENTC3';
         var noOfPeople = 5;
         //settings END
 
@@ -122,16 +122,17 @@
         function onConnectionLost(responseObject) {
             console.log("connection lost: " + responseObject.errorMessage);
             window.setTimeout(location.reload(), 20000); //wait 20seconds before trying to connect again.
-        };
+        }
+        ;
 
         //what is done when a message arrives from the broker
         function onMessageArrived(message) {
             console.log(message.destinationName, '', message.payloadString);
 
-            var readings=message.payloadString.split(' ');
-            for(x=0;x<readings.length;x++){
-                var reading=readings[x].split(':');
-                switch(parseInt(reading[0])){
+            var readings = message.payloadString.split(' ');
+            for (x = 0; x < readings.length; x++) {
+                var reading = readings[x].split(':');
+                switch (parseInt(reading[0])) {
                     case 1:
                         data = google.visualization.arrayToDataTable([
                             ['Label', 'Value'],
@@ -151,9 +152,9 @@
                     case 3:
                         break;
                     case 4:
-                        noOfPeople=noOfPeople+parseInt(reading[1]);
+                        noOfPeople = noOfPeople + parseInt(reading[1]);
                         var peopleCount = $('#peopleCount');
-                        peopleCount.html(("00" + noOfPeople).slice(-3)+'<span>Peoples</span>');
+                        peopleCount.html(("00" + noOfPeople).slice(-3) + '<span>Peoples</span>');
                         break;
                     case 5:
                         break;
@@ -162,7 +163,8 @@
             var activity = $('#activity');
             activity.html('<span>Lecture Out</span>No activity');
 
-        };
+        }
+        ;
 
         function init() {
             // Connect to MQTT broker
@@ -173,7 +175,8 @@
         //check if a real number
         function isNumber(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
-        };
+        }
+        ;
     </script>
 </head>
 
@@ -423,7 +426,7 @@
 
                     <div class="mini-stat-info">
                         <span><a href="temperature">See</a></span>
-                         Temperature
+                        Temperature
                     </div>
                 </div>
             </div>

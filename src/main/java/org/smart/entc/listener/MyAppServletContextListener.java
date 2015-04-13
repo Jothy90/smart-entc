@@ -17,10 +17,8 @@ public class MyAppServletContextListener
 
     static final String BROKER_URL = "tcp://192.248.10.70:1883";
     static final String M2MIO_DOMAIN = "Department";
+    static final String M2MIO_DOMAIN_SERVER = "Server";
     static final String M2MIO_STUFF = "ENTC1";
-    //static final String M2MIO_THING = "myclientid_"+Math.random() * 100;
-    /*static final String M2MIO_USERNAME = "";
-    static final String M2MIO_PASSWORD_MD5 = "";*/
 
     /**
      * connectionLost
@@ -34,10 +32,54 @@ public class MyAppServletContextListener
 
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+
         System.out.println("-------------------------------------------------");
         System.out.println("| Topic:" + s);
         System.out.println("| Message: " + new String(mqttMessage.getPayload()));
         System.out.println("-------------------------------------------------");
+
+        //TODO:MAIN ALGORITHM
+        int noOfPeople = 0;
+        String[] readings = new String(mqttMessage.getPayload()).split(" ");
+        for (String ss : readings) {
+            String[] reading = ss.split(":");
+            switch (Integer.parseInt(reading[0])) {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    noOfPeople = noOfPeople + Integer.parseInt(reading[1]);
+                    break;
+                case 5:
+                    break;
+            }
+        }
+
+
+        //Publish for Applications
+        int pubQoS = 0;
+        MqttMessage message = mqttMessage; //new MqttMessage(pubMsg.getBytes());
+        message.setQos(pubQoS);
+        message.setRetained(false);
+
+        String myTopic = M2MIO_DOMAIN_SERVER + "/" + M2MIO_STUFF;
+        MqttTopic topic = myClient.getTopic(myTopic);
+
+        // Publish the message
+        System.out.println("Publishing to topic \"" + topic + "\" qos " + pubQoS);
+
+        try {
+            // publish message to broker
+            topic.publish(message);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -69,14 +111,12 @@ public class MyAppServletContextListener
 
     public void runClient() {
         // setup MQTT Client
-        String clientID = "myclientid_"+(int)(Math.random() * 100);
+        String clientID = "myclientid_" + (int) (Math.random() * 100);
         System.out.println(clientID);
         connOpt = new MqttConnectOptions();
 
         connOpt.setCleanSession(true);
         connOpt.setKeepAliveInterval(30);
-        /*connOpt.setUserName(M2MIO_USERNAME);
-        connOpt.setPassword(M2MIO_PASSWORD_MD5.toCharArray());*/
 
         // Connect to Broker
         try {
