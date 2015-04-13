@@ -35,14 +35,20 @@
     <script type='text/javascript'>
         google.load('visualization', '1', {packages: ['gauge']});
         google.setOnLoadCallback(drawChart);
+        var data;
+        var options;
+        var chart;
+        var data1;
+        var options1;
+        var chart1;
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
+            data = google.visualization.arrayToDataTable([
                 ['Label', 'Value'],
                 ['\'C', 33]
 
             ]);
 
-            var options = {
+            options = {
                 min: 0, max: 50,
                 width: 500, height: 165,
                 greenFrom: 20, greenTo: 35,
@@ -51,16 +57,16 @@
                 minorTicks: 3
             };
 
-            var chart = new google.visualization.Gauge(document.getElementById('temp_meter'));
+            chart = new google.visualization.Gauge(document.getElementById('temp_meter'));
             chart.draw(data, options);
 
-            var data1 = google.visualization.arrayToDataTable([
+            data1 = google.visualization.arrayToDataTable([
                 ['Label', 'Value'],
                 ['%', 40]
 
             ]);
 
-            var options1 = {
+            options1 = {
                 min: 0, max: 100,
                 width: 500, height: 165,
                 redFrom: 90, redTo: 100,
@@ -69,7 +75,7 @@
                 minorTicks: 5
             };
 
-            var chart1 = new google.visualization.Gauge(document.getElementById('hum_meter'));
+            chart1 = new google.visualization.Gauge(document.getElementById('hum_meter'));
             chart1.draw(data1, options1);
         }
     </script>
@@ -83,6 +89,7 @@
         var MQTTsubTopic1 = 'Department/ENTC1'; //works with wildcard # and + topics dynamically now
         var MQTTsubTopic2 = 'Department/ENTC2';
         var MQTTsubTopic3 = 'Department/ENTC3';
+        var noOfPeople = 5;
         //settings END
 
         var dataTopics = new Array();
@@ -96,7 +103,7 @@
 
 
         //mqtt connecton options including the mqtt broker subscriptions
-        var options = {
+        var options_mqtt = {
             timeout: 3,
             onSuccess: function () {
                 console.log("mqtt connected");
@@ -121,8 +128,47 @@
         function onMessageArrived(message) {
             console.log(message.destinationName, '', message.payloadString);
 
+            var readings=message.payloadString.split(' ');
+            for(x=0;x<readings.length;x++){
+                var reading=readings[x].split(':');
+                switch(parseInt(reading[0])){
+                    case 1:
+                        data = google.visualization.arrayToDataTable([
+                            ['Label', 'Value'],
+                            ['\'C', parseInt(reading[1])]
+
+                        ]);
+                        chart.draw(data, options);
+                        break;
+                    case 2:
+                        data1 = google.visualization.arrayToDataTable([
+                            ['Label', 'Value'],
+                            ['%', parseInt(reading[1])]
+
+                        ]);
+                        chart1.draw(data1, options1);
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        noOfPeople=noOfPeople+parseInt(reading[1]);
+                        var peopleCount = $('#peopleCount');
+                        peopleCount.html(("00" + noOfPeople).slice(-3)+'<span>Peoples</span>');
+                        break;
+                    case 5:
+                        break;
+                }
+            }
+            var activity = $('#activity');
+            activity.html('<span>Lecture Out</span>No activity');
 
         };
+
+        function init() {
+            // Connect to MQTT broker
+            client.connect(options_mqtt);
+
+        }
 
         //check if a real number
         function isNumber(n) {
@@ -131,7 +177,7 @@
     </script>
 </head>
 
-<body>
+<body onload="init()">
 
 <section id="container">
 <!--header start-->
@@ -345,8 +391,8 @@
                         <div class="mini-stat clearfix thumbnail center-block">
                             <span class="mini-stat-icon orange"><i class="fa fa-gavel"></i></span>
 
-                            <div class="mini-stat-info">
-                                <span>Madam In</span>
+                            <div id="activity" class="mini-stat-info">
+                                <span>Lecture In</span>
                                 Meeting Going
                             </div>
                         </div>

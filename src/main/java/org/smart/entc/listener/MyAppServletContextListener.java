@@ -82,7 +82,7 @@ public class MyAppServletContextListener
         try {
             myClient = new MqttClient(BROKER_URL, clientID);
             myClient.connect(connOpt);
-            //myClient.setCallback(this);
+            myClient.setCallback(this);
         } catch (MqttException e) {
             System.out.println("Exception in MQTT");
             e.printStackTrace();
