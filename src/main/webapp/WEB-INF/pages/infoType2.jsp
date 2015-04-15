@@ -204,7 +204,7 @@
     <!--logo start-->
     <div class="brand">
 
-        <a href="index.html" class="logo">
+        <a href="home" class="logo">
             <img src="resources/images/ENTC.png" alt="">
         </a>
 
@@ -291,19 +291,19 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a href="html/FypSample.html">
+                    <a href="home">
                         <i class="fa fa-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="sub-menu">
-                    <a href="index.html">
+                    <a href="info?location=-0.5">
                         <i class="fa fa-user"></i>
                         <span>-0.5</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="boxed_page.html">Bio lab</a></li>
-                        <li><a href="horizontal_menu.html">Study hall</a></li>
+                        <li><a href="info?location=Bio">Bio lab</a></li>
+                        <li><a href="info?location=Study.5">Study hall</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -312,20 +312,18 @@
                         <span>Ground Floor</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="boxed_page.html">ENTC-1</a></li>
-                        <li><a href="horizontal_menu.html">-0.5</a></li>
-                        <li><a href="language_switch.html">+0.5</a></li>
-                        <li><a href="language_switch.html">UUV Lab</a></li>
+                        <li><a href="info?location=ENTC1">ENTC1</a></li>
+                        <li><a href="info?location=UUV">UUV Lab</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="index.html">
+                    <a href="info?location=-0.5">
                         <i class="fa fa-bar-chart-o"></i>
                         <span>+0.5</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="boxed_page.html">Research Lab</a></li>
-                        <li><a href="horizontal_menu.html">Study Hall</a></li>
+                        <li><a href="info?location=Research">Research Lab</a></li>
+                        <li><a href="info?location=Study">Study Hall</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -334,9 +332,9 @@
                         <span>1st Floor</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="general.html">Dileeka Madam's Room</a></li>
-                        <li><a href="buttons.html">Ranga Sir's Room</a></li>
-                        <li><a href="typography.html">Jayasinge Sir's Room</a></li>
+                        <li><a href="info?location=Madam">Dileeka Madam's Room</a></li>
+                        <li><a href="info?location=RangaSir">Ranga Sir's Room</a></li>
+                        <li><a href="info?location=JayasingeSir">Jayasinge Sir's Room</a></li>
                     </ul>
                 </li>
 
@@ -346,10 +344,10 @@
                         <span>2nd Floor</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="basic_table.html">Digital Lab</a></li>
-                        <li><a href="responsive_table.html">Workshop</a></li>
-                        <li><a href="dynamic_table.html">Instructor Room</a></li>
-                        <li><a href="editable_table.html">Rohan Sir's Room</a></li>
+                        <li><a href="info?location=Digital">Digital Lab</a></li>
+                        <li><a href="info?location=Work">Workshop</a></li>
+                        <li><a href="info?location=Instructor">Instructor Room</a></li>
+                        <li><a href="info?location=RohanSir">Rohan Sir's Room</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
@@ -358,20 +356,20 @@
                         <span>3rd Floor</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="form_component.html">Telecom Lab</a></li>
-                        <li><a href="advanced_form.html">Dialog Lab</a></li>
-                        <li><a href="form_wizard.html">PG Seminar</a></li>
-                        <li><a href="form_validation.html">Micro Wave</a></li>
+                        <li><a href="info?location=Telecom">Telecom Lab</a></li>
+                        <li><a href="info?location=Dialog">Dialog Lab</a></li>
+                        <li><a href="info?location=PG">PG Seminar</a></li>
+                        <li><a href="info?location=Micro">Micro Wave</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="index.html">
+                    <a href="info?location=-0.5">
                         <i class="fa fa-glass"></i>
                         <span>3.5</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="form_component.html">Instructors Room</a></li>
-                        <li><a href="advanced_form.html">Lecture Hall</a></li>
+                        <li><a href="info?location=Instructors">Instructors Room</a></li>
+                        <li><a href="info?location=Lec3.5">Lecture Hall</a></li>
                     </ul>
                 </li>
             </ul>
