@@ -4,6 +4,8 @@ package org.smart.entc.security;
  * Created by john on 7/2/14.
  */
 
+import org.smart.entc.repo.DataLayer;
+import org.smart.entc.repo.object.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +22,10 @@ public class LoginUserDeatalis implements UserDetailsService {
             throws UsernameNotFoundException {
 
 
-        //TODO:has to find user name
-        //throw new UsernameNotFoundException(username + " not found");
-
+        final User user= DataLayer.getUserByName(username);
+        if(user==null){
+            throw new UsernameNotFoundException(username + " not found");
+        }
 
         //creating dummy user details, should do JDBC operations
         return new UserDetails() {
@@ -56,7 +59,7 @@ public class LoginUserDeatalis implements UserDetailsService {
 
             @Override
             public String getPassword() {
-                return "1234";
+                return user.getPassword();
             }
 
             //To DO for authentication.

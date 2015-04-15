@@ -21,12 +21,20 @@
     <http authentication-manager-ref="auth"
           access-decision-manager-ref="accessDecisionManager">
 
-        <intercept-url pattern="/page**" access="Admin"/>
+        <intercept-url pattern="/home**" access="Admin"/>
+        <intercept-url pattern="/1stfloor**" access="Admin"/>
+        <intercept-url pattern="/3rdfloor**" access="Admin"/>
+        <intercept-url pattern="/2ndfloor**" access="Admin"/>
+        <intercept-url pattern="/light**" access="Admin"/>
+        <intercept-url pattern="/humidity**" access="Admin"/>
+        <intercept-url pattern="/temperature**" access="Admin"/>
+        <intercept-url pattern="/noise**" access="Admin"/>
+        <intercept-url pattern="/info**" access="Admin"/>
 
 
         <form-login login-page="/login" authentication-failure-url="/login?error"
                     username-parameter="userName" password-parameter="password"
-                    default-target-url="/userHome"/>
+                    default-target-url="/home"/>
         <logout invalidate-session="true" logout-success-url="/login?logout"/>
 
         <access-denied-handler error-page="/403"/>
