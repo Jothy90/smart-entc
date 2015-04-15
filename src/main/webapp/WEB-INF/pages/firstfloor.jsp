@@ -220,16 +220,16 @@
                             <area shape="poly" title="Computer Lab"
                                   coords="20,270,99,189,225,311,189,343,172,326,118,373,119,372" alt="John"
                                   target="c-lab" onmouseover="jmor()" onmouseout="jmot()" onfocus="jof()"
-                                  onblur="job()" href="http"/>
+                                  onblur="job()" href="info?location=Comlab"/>
                             <area shape="poly" title="Dayavansa madam's Room"
                                   coords="229,372,262,371,262,434,228,433" target="madam-room" onmouseover="mmor"
-                                  onmouseout="mmot" href="http"/>
+                                  onmouseout="mmot" href="info?location=DayavansaMadam"/>
                             <area shape="poly" title="Dileeka madam's Room" coords="266,372,295,372,297,431,263,434"
-                                  target="dm-room" href="info"/>
+                                  target="dm-room" href="info?location=Madam"/>
                             <area shape="poly" coords="301,372,330,373,333,432,300,433,300,411" target="romm-1"
                                   href="http"/>
                             <area shape="poly" title="Jayasinge Sir's Room"
-                                  coords="337,373,354,372,368,383,369,432,336,433" target="room2" href="http"/>
+                                  coords="337,373,354,372,368,383,369,432,336,433" target="room2" href="info?location=JayasingeSir"/>
                             <area shape="poly" title="1" coords="299,174,330,176,331,207,322,218,300,221"
                                   target="kk" href="http"/>
                             <area shape="poly" title="2" coords="336,174,365,176,368,220,344,220,337,210,336,208"

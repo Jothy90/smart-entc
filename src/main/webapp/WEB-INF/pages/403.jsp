@@ -210,35 +210,8 @@
 <section id="main-content">
     <section class="wrapper">
         <!-- page start-->
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="panel">
-                    <div class="panel-body thumbnail">
-                        <img src="resources/images/3rd.png" width="715" height="506" border="0" usemap="#map"/>
-
-                        <map name="map">
-                            <area shape="poly" title="MicroWave Lab"
-                                  coords="433,173,432,173,503,101,584,101,585,269,573,281,475,283,435,244,435,242,433,172"
-                                  alt="dkd" target="microkk" href="info?location=Micro"/>
-                            <area shape="poly" title="Dialog Lab"
-                                  coords="292,174,416,174,417,242,412,260,307,260,292,242" alt="dd"
-                                  target="lldd" href="info?location=Dialog"/>
-                            <area shape="poly" title="Communication" coords="10,272,91,191,213,311,132,395"
-                                  href="info?location=Commlab"/>
-
-                            <area shape="poly" title="PostGraduate Lab"
-                                  coords="188,350,242,296,288,294,288,435,218,437,219,383" alt="ddd"
-                                  target="dd" href="info?location=Post"/>
-                            <area shape="poly" title="CAD Lab" coords="291,293,357,294,358,435,290,434,291,434"
-                                  href="info?location=Cad"/>
-
-                            <area shape="poly" title="Seminar Room"
-                                  coords="590,102,642,103,643,241,576,309,527,314,530,285,575,283,588,270" href="info?location=Seminar"/>
-                        </map>
-                    </div>
-                </section>
-            </div>
-        </div>
+        <h1>HTTP Status 403 - Forbidden</h1>
+        <h2>No informations Avialable for this Location !</h2>
         <!-- page end-->
     </section>
 </section>
