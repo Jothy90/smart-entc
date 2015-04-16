@@ -39,4 +39,10 @@ public class GraphController {
         return "graph/noiseGraph";
 
     }
+    @RequestMapping(value = "/graph", method = RequestMethod.GET)
+    public String graph(String location, ModelMap model) {
+        model.addAttribute("location", location);
+        return "graph/graph";
+
+    }
 }
