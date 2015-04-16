@@ -123,7 +123,7 @@
 
         //what is done when a message arrives from the broker
         function onMessageArrived(message) {
-            console.log(message.destinationName, '', message.payloadString);
+            console.log(message.destinationName, message.payloadString);
 
             var readings = message.payloadString.split(' ');
             for (x = 0; x < readings.length; x++) {
@@ -157,7 +157,7 @@
                 }
             }
             var activity = $('#activity');
-            activity.html('<span>Lecture Out</span>No activity');
+            activity.html('<span>Students are presence</span>No activity');
 
         }
         ;

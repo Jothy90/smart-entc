@@ -50,7 +50,9 @@ public class MQTTServletContextListener
             node.setType(1);
             DataLayer.add(node);
         }
-        String[] readings = new String(mqttMessage.getPayload()).split(" ");
+        String msg=new String(mqttMessage.getPayload());
+        msg.replace("4:2","4:0");
+        String[] readings = msg.split(" ");
         for (String ss : readings) {
             String[] reading = ss.split(":");
             switch (Integer.parseInt(reading[0])) {
@@ -85,7 +87,7 @@ public class MQTTServletContextListener
 
         //Publish for Applications
         int pubQoS = 0;
-        MqttMessage message = mqttMessage; //new MqttMessage(pubMsg.getBytes());
+        MqttMessage message =new MqttMessage(msg.getBytes());
         message.setQos(pubQoS);
         message.setRetained(false);
 
@@ -125,10 +127,14 @@ public class MQTTServletContextListener
     //Run this before web application is started
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-        MQTTServletContextListener smc = new MQTTServletContextListener();
+        final MQTTServletContextListener smc = new MQTTServletContextListener();
         smc.runClient();
         System.out.println("ServletContextListener started");
-        smc.performActivity();
+        new Thread(){
+            public void run() {
+                smc.performActivity();
+            }
+        }.start();
     }
 
     public void runClient() {
@@ -155,7 +161,7 @@ public class MQTTServletContextListener
 
         // setup topic
         // topics on m2m.io are in the form <domain>/<stuff>/<thing>
-        String myTopic = M2MIO_DOMAIN + "/#";
+        String myTopic = M2MIO_DOMAIN + "/ENTC1";
         MqttTopic topic = myClient.getTopic(myTopic);
 
         // subscribe to topic if subscriber
