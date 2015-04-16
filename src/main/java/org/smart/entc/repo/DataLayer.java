@@ -9,6 +9,7 @@ import org.smart.entc.repo.object.Node;
 import org.smart.entc.repo.object.User;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class DataLayer {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DBConnector.class);
@@ -190,4 +191,8 @@ public class DataLayer {
         return result;
     }
 
+    public static List<Node> getNodeList() {
+        String sql = String.format("SELECT * FROM node");
+        return DBUtil.getNodeList(sql);
+    }
 }

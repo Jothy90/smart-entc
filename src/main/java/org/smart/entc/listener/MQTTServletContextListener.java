@@ -10,8 +10,9 @@ import org.smart.entc.repo.object.Node;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.*;
 
-public class MyAppServletContextListener
+public class MQTTServletContextListener
         implements ServletContextListener, MqttCallback {
 
     MqttClient myClient;
@@ -20,7 +21,7 @@ public class MyAppServletContextListener
     static final String BROKER_URL = "tcp://192.248.10.70:1883";
     static final String M2MIO_DOMAIN = "Department";
     static final String M2MIO_DOMAIN_SERVER = "Server";
-    static final String M2MIO_STUFF = "ENTC1";
+    static final int SAMPLE_LENGTH=10;
 
     /**
      * connectionLost
@@ -79,9 +80,8 @@ public class MyAppServletContextListener
                     DataLayer.updateNodeNoise(node);
                     break;
             }
+
         }
-
-
 
         //Publish for Applications
         int pubQoS = 0;
@@ -89,7 +89,7 @@ public class MyAppServletContextListener
         message.setQos(pubQoS);
         message.setRetained(false);
 
-        String myTopic = M2MIO_DOMAIN_SERVER + "/" + M2MIO_STUFF;
+        String myTopic = M2MIO_DOMAIN_SERVER + "/" + nodeName;
         MqttTopic topic = myClient.getTopic(myTopic);
 
         // Publish the message
@@ -126,9 +126,10 @@ public class MyAppServletContextListener
     //Run this before web application is started
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-        MyAppServletContextListener smc = new MyAppServletContextListener();
+        MQTTServletContextListener smc = new MQTTServletContextListener();
         smc.runClient();
         System.out.println("ServletContextListener started");
+        smc.performActivity();
     }
 
     public void runClient() {
@@ -155,7 +156,7 @@ public class MyAppServletContextListener
 
         // setup topic
         // topics on m2m.io are in the form <domain>/<stuff>/<thing>
-        String myTopic = M2MIO_DOMAIN + "/" + M2MIO_STUFF;
+        String myTopic = M2MIO_DOMAIN + "/#";
         MqttTopic topic = myClient.getTopic(myTopic);
 
         // subscribe to topic if subscriber
@@ -165,6 +166,115 @@ public class MyAppServletContextListener
             myClient.subscribe(myTopic, subQoS);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    private void performActivity() {
+        Map<String,LinkedList<Integer>> activityMap=new HashMap<String,LinkedList<Integer>>();
+        while(true){
+            List<Node> nodes=DataLayer.getNodeList();
+
+            for(Node node:nodes){
+                LinkedList<Integer> list=activityMap.get(node.getName());
+                if(list==null){
+                    list=new LinkedList<Integer>();
+                    activityMap.put(node.getName(),list);
+                }
+                boolean change=false;
+                switch (node.getType()){
+                    case 1:
+                        int act;
+                        if(node.getPeopleCount()==0&&node.getNoise()<=1){
+                            act=0;
+                        }else if(node.getPeopleCount()==1){
+                            act=1;
+                        }else if(node.getPeopleCount()>1&&node.getNoise()>0){
+                            act=2;
+                        }else{
+                            break;
+                        }
+                        if(list.size()>=SAMPLE_LENGTH){
+                            list.peekLast();
+                            change=true;
+                        }
+                        list.add(act);
+                        break;
+                    case 2:
+                        if(node.getPeopleCount()<=2&&node.getNoise()<=1){
+                            act=0;
+                        }else if(node.getPeopleCount()>=3&&node.getNoise()>=3){
+                            act=1;
+                        }else if(node.getPeopleCount()>=3&&node.getNoise()<=2){
+                            act=2;
+                        }else{
+                            break;
+                        }
+                        if(list.size()>=SAMPLE_LENGTH){
+                            list.peekLast();
+                            change=true;
+                        }
+                        list.add(act);
+                        break;
+                    case 3:
+                        if(node.getPeopleCount()<=1&&node.getNoise()<=2){
+                            act=0;
+                        }else if(node.getPeopleCount()>=2&&node.getNoise()>=4){
+                            act=1;
+                        }else if(node.getPeopleCount()>=2&&node.getNoise()<=3){
+                            act=2;
+                        }else{
+                            break;
+                        }
+                        if(list.size()>=SAMPLE_LENGTH){
+                            list.peekLast();
+                            change=true;
+                        }
+                        list.add(act);
+                        break;
+                }
+                if(change){
+                    int newActivity=-99;
+                    if(Collections.frequency(list,0)>SAMPLE_LENGTH/2){
+                        newActivity=0;
+                    }else if(Collections.frequency(list,1)>SAMPLE_LENGTH/2){
+                        newActivity=1;
+                    }else if(Collections.frequency(list,2)>SAMPLE_LENGTH/2){
+                        newActivity=2;
+                    }
+
+                    if(newActivity!=node.getActivity()){
+                        node.setActivity(newActivity);
+                        DataLayer.updateActivity(node);
+
+                        //Publish for Applications
+                        int pubQoS = 0;
+                        MqttMessage message =new MqttMessage(("6:"+newActivity).getBytes());
+                        message.setQos(pubQoS);
+                        message.setRetained(false);
+
+                        String myTopic = M2MIO_DOMAIN_SERVER + "/" + node.getName();
+                        MqttTopic topic = myClient.getTopic(myTopic);
+
+                        // Publish the message
+                        System.out.println("Publishing to topic \"" + topic + "\" qos " + pubQoS);
+
+                        try {
+                            // publish message to broker
+                            topic.publish(message);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+
+
+            try {
+                Thread.sleep(5000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
