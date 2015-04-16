@@ -63,7 +63,8 @@ var EditableTable = function () {
                         "sNext": "Next"
                     }
                 },
-                "aoColumnDefs": [{
+                "aoColumnDefs": [
+                    {
                         'bSortable': false,
                         'aTargets': [0]
                     }
@@ -78,7 +79,7 @@ var EditableTable = function () {
             $('#editable-sample_new').click(function (e) {
                 e.preventDefault();
                 var aiNew = oTable.fnAddData(['', '', '', '',
-                        '<a class="edit" href="">Edit</a>', '<a class="cancel" data-mode="new" href="">Cancel</a>'
+                    '<a class="edit" href="">Edit</a>', '<a class="cancel" data-mode="new" href="">Cancel</a>'
                 ]);
                 var nRow = oTable.fnGetNodes(aiNew[0]);
                 editRow(oTable, nRow);

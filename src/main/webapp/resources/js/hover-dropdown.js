@@ -11,20 +11,21 @@
  *
  * http://cameronspear.com/blog/twitter-bootstrap-dropdown-on-hover-plugin/
  */
-;(function($, window, undefined) {
+;
+(function ($, window, undefined) {
     // outside the scope of the jQuery plugin to
     // keep track of all dropdowns
     var $allDropdowns = $();
 
     // if instantlyCloseOthers is true, then it will instantly
     // shut other nav items when a new one is hovered over
-    $.fn.dropdownHover = function(options) {
+    $.fn.dropdownHover = function (options) {
 
         // the element we really care about
         // is the dropdown-toggle's parent
         $allDropdowns = $allDropdowns.add(this.parent());
 
-        return this.each(function() {
+        return this.each(function () {
             var $this = $(this),
                 $parent = $this.parent(),
                 defaults = {
@@ -38,22 +39,22 @@
                 settings = $.extend(true, {}, defaults, options, data),
                 timeout;
 
-            $parent.hover(function(event) {
+            $parent.hover(function (event) {
                 // so a neighbor can't open the dropdown
-                if(!$parent.hasClass('open') && !$this.is(event.target)) {
+                if (!$parent.hasClass('open') && !$this.is(event.target)) {
                     return true;
                 }
 
-                if(shouldHover) {
-                    if(settings.instantlyCloseOthers === true)
+                if (shouldHover) {
+                    if (settings.instantlyCloseOthers === true)
                         $allDropdowns.removeClass('open');
 
                     window.clearTimeout(timeout);
                     $parent.addClass('open');
                 }
-            }, function() {
-                if(shouldHover) {
-                    timeout = window.setTimeout(function() {
+            }, function () {
+                if (shouldHover) {
+                    timeout = window.setTimeout(function () {
                         $parent.removeClass('open');
                     }, settings.delay);
                 }
@@ -61,9 +62,9 @@
             });
 
             // this helps with button groups!
-            $this.hover(function() {
-                if(shouldHover) {
-                    if(settings.instantlyCloseOthers === true)
+            $this.hover(function () {
+                if (shouldHover) {
+                    if (settings.instantlyCloseOthers === true)
                         $allDropdowns.removeClass('open');
 
                     window.clearTimeout(timeout);
@@ -72,20 +73,20 @@
             });
 
             // handle submenus
-            $parent.find('.dropdown-submenu').each(function(){
+            $parent.find('.dropdown-submenu').each(function () {
                 var $this = $(this);
                 var subTimeout;
-                $this.hover(function() {
-                    if(shouldHover) {
+                $this.hover(function () {
+                    if (shouldHover) {
                         window.clearTimeout(subTimeout);
                         $this.children('.dropdown-menu').show();
                         // always close submenu siblings instantly
                         $this.siblings().children('.dropdown-menu').hide();
                     }
-                }, function() {
+                }, function () {
                     var $submenu = $this.children('.dropdown-menu');
-                    if(shouldHover) {
-                        subTimeout = window.setTimeout(function() {
+                    if (shouldHover) {
+                        subTimeout = window.setTimeout(function () {
                             $submenu.hide();
                         }, settings.delay);
                     } else {
@@ -104,12 +105,12 @@
             x: null,
             y: null
         };
-    $(document).ready(function() {
+    $(document).ready(function () {
         // apply dropdownHover to all elements with the data-hover="dropdown" attribute
         $('[data-hover="dropdown"]').dropdownHover();
 
         // if the mouse movements are "smooth" or there are more than 20, they probably have a real mouse
-        $(document).mousemove(function(e){
+        $(document).mousemove(function (e) {
             mouse_info.hits++;
             if (mouse_info.hits > 20 || (Math.abs(e.pageX - mouse_info.x) + Math.abs(e.pageY - mouse_info.y)) < 4) {
                 $(this).unbind(e);

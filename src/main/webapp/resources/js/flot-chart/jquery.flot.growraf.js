@@ -1,32 +1,32 @@
 /*
  * The MIT License
 
-This is a fork of jquery.flot.grow by Thodoris Greasidis,
-that implements the growing animations using requestAnimationFrame
-and introduces varius bug fixes and improvements.
+ This is a fork of jquery.flot.grow by Thodoris Greasidis,
+ that implements the growing animations using requestAnimationFrame
+ and introduces varius bug fixes and improvements.
 
-Copyright (c) 2013 by Thodoris Greasidis
+ Copyright (c) 2013 by Thodoris Greasidis
 
-Copyright (c) 2010,2011,2012, 2013 by Juergen Marsch
+ Copyright (c) 2010,2011,2012, 2013 by Juergen Marsch
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 (function ($) {
     "use strict";
@@ -88,8 +88,8 @@ THE SOFTWARE.
         maximum: function (dataj, timePassed, growing, growPhase) {
             var percentage = Math.min(timePassed / dataj.grow.duration, 1);
 
-            var upMax   = dataj.yaxis.max * percentage,
-                upMin   = dataj.yaxis.min * percentage,
+            var upMax = dataj.yaxis.max * percentage,
+                upMin = dataj.yaxis.min * percentage,
                 downMax = dataj.yaxis.max * (1 - percentage),
                 downMin = dataj.yaxis.min * (1 - percentage);
             for (var i = 0, djdatalen = dataj.data.length; i < djdatalen; i++) {
@@ -165,7 +165,7 @@ THE SOFTWARE.
             if (opt.series.grow.active === true) {
                 var reanimate = false;
                 var j = 0;
-                
+
                 if (opt.series.grow.reanimate && growPhase === GrowPhase.PLOTTED_LAST_FRAME) {
                     // reset animation state
                     processSeriesDone = false;
@@ -260,7 +260,8 @@ THE SOFTWARE.
                     if (isReAnimation && growing.reanimate !== 'reinit') {
                         if (typeof growing.reanimate === 'function') {
                             func = growing.reanimate;
-                        } if (growing.reanimate === 'continue') {
+                        }
+                        if (growing.reanimate === 'continue') {
                             func = growFunctions.reanimate;
                         } else {// if (growing.reanimate === 'none')
                             func = growFunctions.none;
@@ -336,17 +337,17 @@ THE SOFTWARE.
 
         var lastTime = +new Date();
         var vendors = ['ms', 'moz', 'webkit', 'o'];
-        for(var x = 0; x < vendors.length && !rAF; ++x) {
-            rAF = window[vendors[x]+'RequestAnimationFrame'];
+        for (var x = 0; x < vendors.length && !rAF; ++x) {
+            rAF = window[vendors[x] + 'RequestAnimationFrame'];
 
-            cAF = window[vendors[x]+'CancelAnimationFrame'] ||
-                  window[vendors[x]+'CancelRequestAnimationFrame'];
+            cAF = window[vendors[x] + 'CancelAnimationFrame'] ||
+                window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
         if (!rAF) {
-            rAF = function(callback, element) {
+            rAF = function (callback, element) {
                 var currTime = +new Date();
                 var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function() {
+                var id = window.setTimeout(function () {
                     callback(currTime + timeToCall);
                 }, timeToCall);
                 lastTime = currTime + timeToCall;
@@ -354,7 +355,7 @@ THE SOFTWARE.
             };
         }
         if (!cAF) {
-            cAF = function(id) {
+            cAF = function (id) {
                 clearTimeout(id);
             };
         }

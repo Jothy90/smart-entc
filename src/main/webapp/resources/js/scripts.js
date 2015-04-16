@@ -71,14 +71,14 @@
             });
 
             $('.pc-epie-chart').easyPieChart({
-                onStep: function(from, to, percent) {
+                onStep: function (from, to, percent) {
                     $(this.el).find('.percent').text(Math.round(percent));
                 },
                 barColor: "#5bc6f0",
                 lineWidth: 3,
-                size:50,
+                size: 50,
                 trackColor: "#32323a",
-                scaleColor:"#cccccc"
+                scaleColor: "#cccccc"
 
             });
 
@@ -93,7 +93,6 @@
                 height: '40',
                 sliceColors: ['#e1e1e1', '#8175c9']
             });
-
 
 
             var sparkLine = function () {
@@ -116,7 +115,8 @@
                             '0:': $spdata.spotColor
                         };
                         $(this).sparkline($(this).data("compositeData"), $spdata);
-                    };
+                    }
+                    ;
                 });
             };
 
@@ -130,9 +130,7 @@
             sparkLine(false);
 
 
-
         }
-
 
 
         if ($.fn.plot) {
@@ -172,7 +170,6 @@
         }
 
 
-
         /*==Collapsible==*/
         $('.widget-head').click(function (e) {
             var widgetElem = $(this).children('.widget-collapse').children('i');
@@ -191,8 +188,6 @@
         });
 
 
-
-
         /*==Sidebar Toggle==*/
 
         $(".leftside-navigation .sub-menu > a").click(function () {
@@ -203,7 +198,6 @@
             else
                 $(".leftside-navigation").scrollTo("+=" + Math.abs(diff), 500);
         });
-
 
 
         $('.sidebar-toggle-box .fa-bars').click(function (e) {
@@ -266,9 +260,9 @@
                 el.slideUp(200);
             } else {
                 $(this).removeClass("fa-chevron-up").addClass("fa-chevron-down");
-                el.slideDown(200); }
+                el.slideDown(200);
+            }
         });
-
 
 
         $('.panel .tools .fa-times').click(function () {

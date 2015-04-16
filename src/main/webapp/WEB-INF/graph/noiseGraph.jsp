@@ -12,7 +12,7 @@
         //settings BEGIN
         var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
         var MQTTport = 8000;
-        var MQTTsubTopic = 'Server/'+${location}; //works with wildcard # and + topics dynamically now
+        var MQTTsubTopic = 'Server/' +${location}; //works with wildcard # and + topics dynamically now
 
         //settings END
 

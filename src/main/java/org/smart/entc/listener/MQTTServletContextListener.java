@@ -21,7 +21,8 @@ public class MQTTServletContextListener
     static final String BROKER_URL = "tcp://192.248.10.70:1883";
     static final String M2MIO_DOMAIN = "Department";
     static final String M2MIO_DOMAIN_SERVER = "Server";
-    static final int SAMPLE_LENGTH=10;
+    static final int SAMPLE_LENGTH = 10;
+    static final double PERCENTAGE = .6;
 
     /**
      * connectionLost
@@ -30,7 +31,7 @@ public class MQTTServletContextListener
     @Override
     public void connectionLost(Throwable t) {
         System.out.println("Connection lost!");
-        // code to reconnect to the broker would go here if desired
+        //TODO:code to reconnect to the broker would go here if desired
     }
 
     @Override
@@ -41,11 +42,10 @@ public class MQTTServletContextListener
         System.out.println("| Message: " + new String(mqttMessage.getPayload()));
         System.out.println("-------------------------------------------------");
 
-        //TODO:MAIN ALGORITHM
-        String nodeName=s.replace(M2MIO_DOMAIN+"/","");
-        Node node= DataLayer.getNodeByName(nodeName);
-        if(node==null){
-            node=new Node();
+        String nodeName = s.replace(M2MIO_DOMAIN + "/", "");
+        Node node = DataLayer.getNodeByName(nodeName);
+        if (node == null) {
+            node = new Node();
             node.setName(nodeName);
             node.setType(1);
             DataLayer.add(node);
@@ -71,7 +71,7 @@ public class MQTTServletContextListener
                     break;
                 case 4:
                     //People Count
-                    node.setPeopleCount(node.getPeopleCount()+ Integer.parseInt(reading[1]));
+                    node.setPeopleCount(node.getPeopleCount() + Integer.parseInt(reading[1]));
                     DataLayer.updatePeopleCount(node);
                     break;
                 case 5:
@@ -113,7 +113,6 @@ public class MQTTServletContextListener
     public void contextDestroyed(ServletContextEvent arg0) {
         try {
             // wait to ensure subscribed messages are delivered
-
             Thread.sleep(5000);
 
             myClient.disconnect();
@@ -168,86 +167,87 @@ public class MQTTServletContextListener
             e.printStackTrace();
         }
     }
-    private void performActivity() {
-        Map<String,LinkedList<Integer>> activityMap=new HashMap<String,LinkedList<Integer>>();
-        while(true){
-            List<Node> nodes=DataLayer.getNodeList();
 
-            for(Node node:nodes){
-                LinkedList<Integer> list=activityMap.get(node.getName());
-                if(list==null){
-                    list=new LinkedList<Integer>();
-                    activityMap.put(node.getName(),list);
+    private void performActivity() {
+        Map<String, LinkedList<Integer>> activityMap = new HashMap<String, LinkedList<Integer>>();
+        while (true) {
+            List<Node> nodes = DataLayer.getNodeList();
+
+            for (Node node : nodes) {
+                LinkedList<Integer> list = activityMap.get(node.getName());
+                if (list == null) {
+                    list = new LinkedList<Integer>();
+                    activityMap.put(node.getName(), list);
                 }
-                boolean change=false;
-                switch (node.getType()){
+                boolean change = false;
+                switch (node.getType()) {
                     case 1:
                         int act;
-                        if(node.getPeopleCount()==0&&node.getNoise()<=1){
-                            act=0;
-                        }else if(node.getPeopleCount()==1){
-                            act=1;
-                        }else if(node.getPeopleCount()>1&&node.getNoise()>0){
-                            act=2;
-                        }else{
+                        if (node.getPeopleCount() == 0 && node.getNoise() <= 1) {
+                            act = 0;
+                        } else if (node.getPeopleCount() == 1) {
+                            act = 1;
+                        } else if (node.getPeopleCount() > 1 && node.getNoise() > 0) {
+                            act = 2;
+                        } else {
                             break;
                         }
-                        if(list.size()>=SAMPLE_LENGTH){
+                        if (list.size() >= SAMPLE_LENGTH) {
                             list.peekLast();
-                            change=true;
+                            change = true;
                         }
                         list.add(act);
                         break;
                     case 2:
-                        if(node.getPeopleCount()<=2&&node.getNoise()<=1){
-                            act=0;
-                        }else if(node.getPeopleCount()>=3&&node.getNoise()>=3){
-                            act=1;
-                        }else if(node.getPeopleCount()>=3&&node.getNoise()<=2){
-                            act=2;
-                        }else{
+                        if (node.getPeopleCount() <= 2 && node.getNoise() <= 1) {
+                            act = 0;
+                        } else if (node.getPeopleCount() >= 3 && node.getNoise() >= 3) {
+                            act = 1;
+                        } else if (node.getPeopleCount() >= 3 && node.getNoise() <= 2) {
+                            act = 2;
+                        } else {
                             break;
                         }
-                        if(list.size()>=SAMPLE_LENGTH){
+                        if (list.size() >= SAMPLE_LENGTH) {
                             list.peekLast();
-                            change=true;
+                            change = true;
                         }
                         list.add(act);
                         break;
                     case 3:
-                        if(node.getPeopleCount()<=1&&node.getNoise()<=2){
-                            act=0;
-                        }else if(node.getPeopleCount()>=2&&node.getNoise()>=4){
-                            act=1;
-                        }else if(node.getPeopleCount()>=2&&node.getNoise()<=3){
-                            act=2;
-                        }else{
+                        if (node.getPeopleCount() <= 1 && node.getNoise() <= 2) {
+                            act = 0;
+                        } else if (node.getPeopleCount() >= 2 && node.getNoise() >= 4) {
+                            act = 1;
+                        } else if (node.getPeopleCount() >= 2 && node.getNoise() <= 3) {
+                            act = 2;
+                        } else {
                             break;
                         }
-                        if(list.size()>=SAMPLE_LENGTH){
+                        if (list.size() >= SAMPLE_LENGTH) {
                             list.peekLast();
-                            change=true;
+                            change = true;
                         }
                         list.add(act);
                         break;
                 }
-                if(change){
-                    int newActivity=-99;
-                    if(Collections.frequency(list,0)>SAMPLE_LENGTH/2){
-                        newActivity=0;
-                    }else if(Collections.frequency(list,1)>SAMPLE_LENGTH/2){
-                        newActivity=1;
-                    }else if(Collections.frequency(list,2)>SAMPLE_LENGTH/2){
-                        newActivity=2;
+                if (change) {
+                    int newActivity = -99;
+                    if (Collections.frequency(list, 0) > SAMPLE_LENGTH * PERCENTAGE) {
+                        newActivity = 0;
+                    } else if (Collections.frequency(list, 1) > SAMPLE_LENGTH * PERCENTAGE) {
+                        newActivity = 1;
+                    } else if (Collections.frequency(list, 2) > SAMPLE_LENGTH * PERCENTAGE) {
+                        newActivity = 2;
                     }
 
-                    if(newActivity!=node.getActivity()){
+                    if (newActivity != node.getActivity()) {
                         node.setActivity(newActivity);
                         DataLayer.updateActivity(node);
 
                         //Publish for Applications
                         int pubQoS = 0;
-                        MqttMessage message =new MqttMessage(("6:"+newActivity).getBytes());
+                        MqttMessage message = new MqttMessage(("6:" + newActivity).getBytes());
                         message.setQos(pubQoS);
                         message.setRetained(false);
 

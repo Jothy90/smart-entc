@@ -5,7 +5,7 @@ var TreeView = function () {
         init: function () {
 
             var DataSourceTree = function (options) {
-                this._data  = options.data;
+                this._data = options.data;
                 this._delay = options.delay;
             };
 

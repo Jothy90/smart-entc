@@ -49,11 +49,11 @@ $(function () {
                 url: 'http://local.tf/tf/F4/bucketmin/assets/file-uploader/server/php/',
                 type: 'HEAD'
             }).fail(function () {
-                $('<div class="alert alert-danger"/>')
-                    .text('Upload server currently unavailable - ' +
+                    $('<div class="alert alert-danger"/>')
+                        .text('Upload server currently unavailable - ' +
                             new Date())
-                    .appendTo('#fileupload');
-            });
+                        .appendTo('#fileupload');
+                });
         }
     } else {
         // Load existing files:
@@ -65,11 +65,11 @@ $(function () {
             dataType: 'json',
             context: $('#fileupload')[0]
         }).always(function () {
-            $(this).removeClass('fileupload-processing');
-        }).done(function (result) {
-            $(this).fileupload('option', 'done')
-                .call(this, $.Event('done'), {result: result});
-        });
+                $(this).removeClass('fileupload-processing');
+            }).done(function (result) {
+                $(this).fileupload('option', 'done')
+                    .call(this, $.Event('done'), {result: result});
+            });
     }
 
 });

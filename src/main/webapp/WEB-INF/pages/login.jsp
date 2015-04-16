@@ -15,11 +15,11 @@
     <!--Core CSS -->
     <link href="resources/bs3/css/bootstrap.min.css" rel="stylesheet">
     <link href="resources/css/bootstrap-reset.css" rel="stylesheet">
-    <link href="resources/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="resources/font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
     <!-- Custom styles for this template -->
     <link href="resources/css/style.css" rel="stylesheet">
-    <link href="resources/css/style-responsive.css" rel="stylesheet" />
+    <link href="resources/css/style-responsive.css" rel="stylesheet"/>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]>
@@ -38,6 +38,7 @@
 
     <form method="post" class="form-signin" action="j_spring_security_check">
         <h2 class="form-signin-heading">sign in now</h2>
+
         <div class="login-wrap">
             <div class="user-login-info">
                 <input type="text" name="userName" class="form-control" placeholder="User Name" autofocus>
@@ -55,7 +56,8 @@
         </div>
 
         <!-- Modal -->
-        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
+             class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -64,7 +66,8 @@
                     </div>
                     <div class="modal-body">
                         <p>Enter your e-mail address below to reset your password.</p>
-                        <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+                        <input type="text" name="email" placeholder="Email" autocomplete="off"
+                               class="form-control placeholder-no-fix">
 
                     </div>
                     <div class="modal-footer">
@@ -79,7 +82,6 @@
     </form>
 
 </div>
-
 
 
 <!-- Placed js at the end of the document so the pages load faster -->

@@ -227,7 +227,8 @@
                             <area shape="poly" coords="301,372,330,373,333,432,300,433,300,411" target="romm-1"
                                   href="http"/>
                             <area shape="poly" title="Jayasinge Sir's Room"
-                                  coords="337,373,354,372,368,383,369,432,336,433" target="room2" href="info?location=JayasingeSir"/>
+                                  coords="337,373,354,372,368,383,369,432,336,433" target="room2"
+                                  href="info?location=JayasingeSir"/>
                             <area shape="poly" title="1" coords="299,174,330,176,331,207,322,218,300,221"
                                   target="kk" href="http"/>
                             <area shape="poly" title="2" coords="336,174,365,176,368,220,344,220,337,210,336,208"

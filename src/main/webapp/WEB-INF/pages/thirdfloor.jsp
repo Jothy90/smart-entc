@@ -231,7 +231,8 @@
                                   href="info?location=Cad"/>
 
                             <area shape="poly" title="Seminar Room"
-                                  coords="590,102,642,103,643,241,576,309,527,314,530,285,575,283,588,270" href="info?location=Seminar"/>
+                                  coords="590,102,642,103,643,241,576,309,527,314,530,285,575,283,588,270"
+                                  href="info?location=Seminar"/>
                         </map>
                     </div>
                 </section>

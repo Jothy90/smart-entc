@@ -59,7 +59,7 @@ public class DBUtil {
         try {
             Connection con = DBConnector.getConnection();
             ResultSet resultSet = sqlQuery(con, sql);
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 node = new Node();
                 node.setId(resultSet.getInt("id"));
                 node.setName(resultSet.getString("name"));
@@ -83,18 +83,17 @@ public class DBUtil {
     /**
      * Create User instance by device resultSet on current index.
      *
-     *
      * @param sql SQL String
      * @return User with positive id if successful, or id 0.
      */
     public static User getUser(String sql) {
 
-        User user =null;
+        User user = null;
         try {
             Connection con = DBConnector.getConnection();
             ResultSet resultSet = sqlQuery(con, sql);
             if (resultSet.next()) {
-                user= new User();
+                user = new User();
                 user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
                 user.setPassword(resultSet.getString("password"));
@@ -123,10 +122,10 @@ public class DBUtil {
      * @param sql executeUpdate the sql in Dia DB connection
      * @return positive on success, or 0
      */
-    public static int sqlUpdate(Connection con, String sql)  throws SQLException {
+    public static int sqlUpdate(Connection con, String sql) throws SQLException {
         int resultInt = 0;
-            Statement stmt = con.createStatement();
-            resultInt = stmt.executeUpdate(sql);
+        Statement stmt = con.createStatement();
+        resultInt = stmt.executeUpdate(sql);
         return resultInt;
     }
 }

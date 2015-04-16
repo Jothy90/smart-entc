@@ -22,8 +22,8 @@ public class LoginUserDeatalis implements UserDetailsService {
             throws UsernameNotFoundException {
 
 
-        final User user= DataLayer.getUserByName(username);
-        if(user==null){
+        final User user = DataLayer.getUserByName(username);
+        if (user == null) {
             throw new UsernameNotFoundException(username + " not found");
         }
 

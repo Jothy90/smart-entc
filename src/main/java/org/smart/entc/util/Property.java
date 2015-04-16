@@ -15,15 +15,14 @@ public class Property {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Property.class);
 
     /**
-     *
      * @param key
      * @return
      */
     public static String getValue(final String key) {
-        LOGGER.debug("Property for key:"+key);
+        LOGGER.debug("Property for key:" + key);
         try {
-            LOGGER.debug("Property is:"+key);
-            String s=resourceBundle.getString(key);
+            LOGGER.debug("Property is:" + key);
+            String s = resourceBundle.getString(key);
             return s;
         } catch (MissingResourceException e) {
             LOGGER.error("Resource Missing");

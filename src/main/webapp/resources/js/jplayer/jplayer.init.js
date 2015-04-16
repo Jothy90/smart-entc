@@ -1,5 +1,5 @@
-$(function(){
-"use strict";
+$(function () {
+    "use strict";
     $("#jquery_jplayer_1").jPlayer({
         ready: function () {
             $(this).jPlayer("setMedia", {
@@ -22,8 +22,8 @@ $(function(){
     $("#jquery_jplayer_2").jPlayer({
         ready: function (event) {
             $(this).jPlayer("setMedia", {
-                m4a:"http://www.jplayer.org/audio/m4a/TSP-01-Cro_magnon_man.m4a",
-                oga:"http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg"
+                m4a: "http://www.jplayer.org/audio/m4a/TSP-01-Cro_magnon_man.m4a",
+                oga: "http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg"
             });
         },
         swfPath: "js/jplayer/js",

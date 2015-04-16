@@ -1,9 +1,9 @@
 //date picker start
 
 if (top.location != location) {
-    top.location.href = document.location.href ;
+    top.location.href = document.location.href;
 }
-$(function(){
+$(function () {
     window.prettyPrint && prettyPrint();
     $('.default-date-picker').datepicker({
         format: 'mm-dd-yyyy'
@@ -12,11 +12,11 @@ $(function(){
     $('.dpMonths').datepicker();
 
 
-    var startDate = new Date(2012,1,20);
-    var endDate = new Date(2012,1,25);
+    var startDate = new Date(2012, 1, 20);
+    var endDate = new Date(2012, 1, 25);
     $('.dp4').datepicker()
-        .on('changeDate', function(ev){
-            if (ev.date.valueOf() > endDate.valueOf()){
+        .on('changeDate', function (ev) {
+            if (ev.date.valueOf() > endDate.valueOf()) {
                 $('.alert').show().find('strong').text('The start date can not be greater then the end date');
             } else {
                 $('.alert').hide();
@@ -26,8 +26,8 @@ $(function(){
             $('.dp4').datepicker('hide');
         });
     $('.dp5').datepicker()
-        .on('changeDate', function(ev){
-            if (ev.date.valueOf() < startDate.valueOf()){
+        .on('changeDate', function (ev) {
+            if (ev.date.valueOf() < startDate.valueOf()) {
                 $('.alert').show().find('strong').text('The end date can not be less then the start date');
             } else {
                 $('.alert').hide();
@@ -42,10 +42,10 @@ $(function(){
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
     var checkin = $('.dpd1').datepicker({
-        onRender: function(date) {
+        onRender: function (date) {
             return date.valueOf() < now.valueOf() ? 'disabled' : '';
         }
-    }).on('changeDate', function(ev) {
+    }).on('changeDate',function (ev) {
             if (ev.date.valueOf() > checkout.date.valueOf()) {
                 var newDate = new Date(ev.date)
                 newDate.setDate(newDate.getDate() + 1);
@@ -55,10 +55,10 @@ $(function(){
             $('.dpd2')[0].focus();
         }).data('datepicker');
     var checkout = $('.dpd2').datepicker({
-        onRender: function(date) {
+        onRender: function (date) {
             return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
         }
-    }).on('changeDate', function(ev) {
+    }).on('changeDate',function (ev) {
             checkout.hide();
         }).data('datepicker');
 });
@@ -164,10 +164,9 @@ $('#my_multi_select3').multiSelect({
 //spinner start
 $('#spinner1').spinner();
 $('#spinner2').spinner({disabled: true});
-$('#spinner3').spinner({value:0, min: 0, max: 10});
-$('#spinner4').spinner({value:0, step: 5, min: 0, max: 200});
+$('#spinner3').spinner({value: 0, min: 0, max: 10});
+$('#spinner4').spinner({value: 0, step: 5, min: 0, max: 200});
 //spinner end
-
 
 
 //wysihtml5 start
@@ -186,21 +185,19 @@ function onRemoveTag(tag) {
     alert("Removed a tag: " + tag);
 }
 
-function onChangeTag(input,tag) {
+function onChangeTag(input, tag) {
     alert("Changed a tag: " + tag);
 }
 
-$(function() {
+$(function () {
 
-    $('#tags_1').tagsInput({width:'auto'});
+    $('#tags_1').tagsInput({width: 'auto'});
     $('#tags_2').tagsInput({
         width: '250',
-        onChange: function(elem, elem_tags)
-        {
-            var languages = ['php','ruby','javascript'];
-            $('.tag', elem_tags).each(function()
-            {
-                if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+        onChange: function (elem, elem_tags) {
+            var languages = ['php', 'ruby', 'javascript'];
+            $('.tag', elem_tags).each(function () {
+                if ($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
                     $(this).css('background-color', 'yellow');
             });
         }

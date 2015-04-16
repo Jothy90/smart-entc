@@ -9,11 +9,10 @@ Morris.Bar({
     xkey: 'x',
     ykeys: ['y', 'z', 'a'],
     labels: ['Y', 'Z', 'A'],
-    barColors:['#E67A77','#D9DD81','#79D1CF']
+    barColors: ['#E67A77', '#D9DD81', '#79D1CF']
 
 
 });
-
 
 
 var day_data = [
@@ -34,11 +33,9 @@ Morris.Line({
     xkey: 'elapsed',
     ykeys: ['value'],
     labels: ['value'],
-    lineColors:['#1FB5AD'],
+    lineColors: ['#1FB5AD'],
     parseTime: false
 });
-
-
 
 
 // Use Morris.Area instead of Morris.Line
@@ -55,14 +52,11 @@ Morris.Area({
     xkey: 'x',
     ykeys: ['y', 'z'],
     labels: ['Y', 'Z'],
-    lineColors:['#E67A77','#79D1CF']
+    lineColors: ['#E67A77', '#79D1CF']
 
 
 
 });
-
-
-
 
 
 // Use Morris.Area instead of Morris.Line
@@ -77,11 +71,12 @@ Morris.Donut({
     backgroundColor: '#fff',
     labelColor: '#1fb5ac',
     colors: [
-        '#E67A77','#D9DD81','#79D1CF','#95D7BB'
+        '#E67A77', '#D9DD81', '#79D1CF', '#95D7BB'
     ],
-    formatter: function (x, data) { return data.formatted; }
+    formatter: function (x, data) {
+        return data.formatted;
+    }
 });
-
 
 
 // Use Morris.Area instead of Morris.Line
@@ -91,7 +86,7 @@ Morris.Area({
     gridEnabled: false,
     gridLineColor: '#dddddd',
     axes: true,
-    fillOpacity:.7,
+    fillOpacity: .7,
     data: [
         {period: '2010 Q1', iphone: 10, ipad: 10, itouch: 10},
         {period: '2010 Q2', iphone: 1778, ipad: 7294, itouch: 18441},
@@ -106,7 +101,7 @@ Morris.Area({
 
 
     ],
-    lineColors:['#E67A77','#D9DD81','#79D1CF'],
+    lineColors: ['#E67A77', '#D9DD81', '#79D1CF'],
     xkey: 'period',
     ykeys: ['iphone', 'ipad', 'itouch'],
     labels: ['iPhone', 'iPad', 'iPod Touch'],
