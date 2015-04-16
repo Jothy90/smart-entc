@@ -86,9 +86,7 @@
         //settings BEGIN
         var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
         var MQTTport = 8000;
-        var MQTTsubTopic1 = 'Server/ENTC1'; //works with wildcard # and + topics dynamically now
-        var MQTTsubTopic2 = 'Server/ENTC2';
-        var MQTTsubTopic3 = 'Server/ENTC3';
+        var MQTTsubTopic = 'Server/'+${location}; //works with wildcard # and + topics dynamically now
         var noOfPeople = 5;
         //settings END
 
@@ -108,9 +106,7 @@
             onSuccess: function () {
                 console.log("mqtt connected");
                 // Connection succeeded; subscribe to our topics
-                client.subscribe(MQTTsubTopic1, {qos: 1});
-                client.subscribe(MQTTsubTopic2, {qos: 1});
-                client.subscribe(MQTTsubTopic3, {qos: 1});
+                client.subscribe(MQTTsubTopic, {qos: 1});
             },
             onFailure: function (message) {
                 console.log("Connection failed, ERROR: " + message.errorMessage);
@@ -439,7 +435,7 @@
                     <span class="mini-stat-icon orange"><i class="fa fa-clock-o"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="temperature">See</a></span>
+                        <span><a href="temperature?location=${node.name}">See</a></span>
                         Temperature
                     </div>
                 </div>
@@ -449,7 +445,7 @@
                     <span class="mini-stat-icon tar"><i class="fa fa-cloud"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="humidity">See</a></span>
+                        <span><a href="humidity?location=${node.name}">See</a></span>
                         Humidity Variations
                     </div>
                 </div>
@@ -459,7 +455,7 @@
                     <span class="mini-stat-icon pink"><i class="fa fa-sun-o"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="light">See</a></span>
+                        <span><a href="light?location=${node.name}">See</a></span>
                         Light Variations
                     </div>
                 </div>
@@ -469,7 +465,7 @@
                     <span class="mini-stat-icon green"><i class="fa fa-volume-up"></i></span>
 
                     <div class="mini-stat-info">
-                        <span><a href="noise">See</a></span>
+                        <span><a href="noise?location=${node.name}">See</a></span>
                         Noise Variations
                     </div>
                 </div>

@@ -25,9 +25,7 @@
         //settings BEGIN
         var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
         var MQTTport = 8000;
-        var MQTTsubTopic1 = 'Department/ENTC1'; //works with wildcard # and + topics dynamically now
-        var MQTTsubTopic2 = 'Department/ENTC2';
-        var MQTTsubTopic3 = 'Department/ENTC3';
+        var MQTTsubTopic = 'Server/' +${location}; //works with wildcard # and + topics dynamically now
 
         //settings END
 
@@ -48,9 +46,7 @@
             onSuccess: function () {
                 console.log("mqtt connected");
                 // Connection succeeded; subscribe to our topics
-                client.subscribe(MQTTsubTopic1, {qos: 1});
-                client.subscribe(MQTTsubTopic2, {qos: 1});
-                client.subscribe(MQTTsubTopic3, {qos: 1});
+                client.subscribe(MQTTsubTopic, {qos: 1});
             },
             onFailure: function (message) {
                 console.log("Connection failed, ERROR: " + message.errorMessage);
@@ -84,24 +80,22 @@
                 chart.addSeries(newseries); //add the series
 
             }
-            ;
 
-            var y = dataTopics.indexOf(message.destinationName); //get the index no of the topic from the array
             var myEpoch = new Date().getTime(); //get current epoch time
-            //var thenum = message.payloadString.replace( /^\D+/g, ''); //remove any text spaces from the message
-            var inData = message.payloadString;
-            var dataArray = inData.split("  ");
-            thenum = dataArray[4];
-            nextnum = dataArray[4];
-            var plotMqtt = [myEpoch, Number(thenum)]; //create the array
-            var nextPlot = [myEpoch, Number(nextnum)];
-            if (isNumber(thenum)) { //check if it is a real number and not text
-                console.log('is a propper number, will send to chart.')
-                plot(plotMqtt, y);      //send it to the plot function
+            var readings = message.payloadString.split(' ');
+            for (x = 0; x < readings.length; x++) {
+                var reading = readings[x].split(':');
+                if (parseInt(reading[0]) == 2) {
+                    thenum = parseInt(reading[1]);
+                    var plotMqtt = [myEpoch, Number(thenum)]; //create the array
+                    if (isNumber(thenum)) { //check if it is a real number and not text
+                        console.log('is a propper number, will send to chart.')
+                        plot(plotMqtt, y);      //send it to the plot function
+                    }
+                }
             }
-            ;
+
         }
-        ;
 
         //check if a real number
         function isNumber(n) {
@@ -149,7 +143,7 @@
                     text: 'MQTT topic - Humidity'
                 },
                 subtitle: {
-                    text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic1
+                    text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic
                 },
                 xAxis: {
                     type: 'datetime',
