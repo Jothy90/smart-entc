@@ -39,10 +39,16 @@ public class GraphController {
         return "graph/noiseGraph";
 
     }
-    @RequestMapping(value = "/graph", method = RequestMethod.GET)
-    public String graph(String location, ModelMap model) {
+    @RequestMapping(value = "/Motion", method = RequestMethod.GET)
+    public String motion(String location, ModelMap model) {
         model.addAttribute("location", location);
-        return "graph/graph";
+        return "graph/graph6";
+
+    }
+    @RequestMapping(value = "/Noise", method = RequestMethod.GET)
+    public String noiseR(String location, ModelMap model) {
+        model.addAttribute("location", location);
+        return "graph/graph7";
 
     }
 }

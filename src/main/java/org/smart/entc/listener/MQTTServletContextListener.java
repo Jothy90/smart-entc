@@ -31,6 +31,7 @@ public class MQTTServletContextListener
     @Override
     public void connectionLost(Throwable t) {
         System.out.println("Connection lost!");
+        runClient();
         //TODO:code to reconnect to the broker would go here if desired
     }
 
@@ -51,7 +52,9 @@ public class MQTTServletContextListener
             DataLayer.add(node);
         }
         String msg=new String(mqttMessage.getPayload());
-        msg.replace("4:2","4:0");
+        msg=msg.replace("4:2","4:0");
+        msg=msg.replace("\r","");
+        msg=msg.replace("\n","");
         String[] readings = msg.split(" ");
         for (String ss : readings) {
             String[] reading = ss.split(":");
@@ -161,14 +164,15 @@ public class MQTTServletContextListener
 
         // setup topic
         // topics on m2m.io are in the form <domain>/<stuff>/<thing>
-        String myTopic = M2MIO_DOMAIN + "/ENTC1";
-        MqttTopic topic = myClient.getTopic(myTopic);
-
+        String myTopicENTC1 = M2MIO_DOMAIN + "/ENTC1";
+        String myTopicMadam = M2MIO_DOMAIN + "/Madam";
+        String myTopicMicro = M2MIO_DOMAIN + "/Micro";
+        String[] myTopics=new String[]{myTopicENTC1,myTopicMadam,myTopicMicro};
         // subscribe to topic if subscriber
 
         try {
-            int subQoS = 0;
-            myClient.subscribe(myTopic, subQoS);
+            int[] subQoS = new int[]{0,0,0};
+            myClient.subscribe(myTopics,subQoS);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -253,7 +257,7 @@ public class MQTTServletContextListener
 
                         //Publish for Applications
                         int pubQoS = 0;
-                        MqttMessage message = new MqttMessage(("6:" + newActivity).getBytes());
+                        MqttMessage message = new MqttMessage(("0:" + newActivity).getBytes());
                         message.setQos(pubQoS);
                         message.setRetained(false);
 

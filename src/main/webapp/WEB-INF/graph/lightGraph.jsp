@@ -51,11 +51,11 @@
         function onMessageArrived(message) {
             console.log(message.destinationName, '', message.payloadString);
 
-            //check if it is a new topic, if not add it to the array
-            if (dataTopics.indexOf(message.destinationName) < 0) {
+            var y = dataTopics.indexOf(message.destinationName); //get the index no
+            if (y< 0) {
 
                 dataTopics.push(message.destinationName); //add new topic to array
-                var y = dataTopics.indexOf(message.destinationName); //get the index no
+                y = dataTopics.indexOf(message.destinationName); //get the index no
 
                 //create new data series for the chart
                 var newseries = {

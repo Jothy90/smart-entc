@@ -87,7 +87,7 @@
         var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
         var MQTTport = 8000;
         var MQTTsubTopic = 'Server/${node.name}'; //works with wildcard # and + topics dynamically now
-        var noOfPeople = 5;
+        var noOfPeople = ${node.peopleCount};
         //settings END
 
         var dataTopics = new Array();

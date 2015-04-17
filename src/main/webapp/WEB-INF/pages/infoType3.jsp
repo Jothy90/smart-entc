@@ -87,7 +87,7 @@
         var MQTTbroker = '192.248.10.70';  //'messagesight.demos.ibm.com';
         var MQTTport = 8000;
         var MQTTsubTopic = 'Server/${node.name}'; //works with wildcard # and + topics dynamically now
-        var noOfPeople = 5;
+        var noOfPeople = ${node.peopleCount};
         //settings END
 
         var dataTopics = new Array();
@@ -129,6 +129,20 @@
             for (x = 0; x < readings.length; x++) {
                 var reading = readings[x].split(':');
                 switch (parseInt(reading[0])) {
+                    case 0:
+                        var activity = $('#activity');
+                        switch (parseInt(reading[1])) {
+                            case 0:
+                                activity.html('<span>No Students</span>No activity');
+                                break;
+                            case 1:
+                                activity.html('<span>Students are Presence</span>No activity');
+                                break;
+                            case 2:
+                                activity.html('<span>Practical is Going</span>Activity Happening');
+                                break;
+                        }
+                        break;
                     case 1:
                         data = google.visualization.arrayToDataTable([
                             ['Label', 'Value'],

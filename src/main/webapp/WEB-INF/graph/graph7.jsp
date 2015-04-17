@@ -50,6 +50,7 @@
         function onMessageArrived(message) {
             console.log(message.destinationName, '', message.payloadString);
 
+            //check if it is a new topic, if not add it to the array
             var y = dataTopics.indexOf(message.destinationName); //get the index no
             if (y< 0) {
 
@@ -71,7 +72,7 @@
             var readings = message.payloadString.split(' ');
             for (x = 0; x < readings.length; x++) {
                 var reading = readings[x].split(':');
-                if (parseInt(reading[0]) == 1) {
+                if (parseInt(reading[0]) == 6) {
                     thenum = parseInt(reading[1]);
                     var plotMqtt = [myEpoch, Number(thenum)]; //create the array
                     if (isNumber(thenum)) { //check if it is a real number and not text
@@ -125,7 +126,7 @@
                     defaultSeriesType: 'spline'
                 },
                 title: {
-                    text: 'MQTT topic - Temperature'
+                    text: 'MQTT topic - Motion Analog'
                 },
                 subtitle: {
                     text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic
