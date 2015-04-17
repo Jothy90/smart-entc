@@ -21,7 +21,7 @@ public class DBConnector {
                 LOGGER.debug("JDBC connection is null and connection now");
                 Class.forName("com.mysql.jdbc.Driver");
                 connection = (Connection) DriverManager
-                        .getConnection("jdbc:mysql://localhost:3306/fyp", "root", "root");
+                        .getConnection("jdbc:mysql://localhost:3306/fyp", "root", "");
 
                 /*connection = (Connection) DriverManager
                         .getConnection(Property.getValue("mysql.url"), Property.getValue("mysql.username"), Property.getValue("mysql.password"));

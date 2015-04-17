@@ -85,4 +85,19 @@ public class Node {
     public void setActivity(int activity) {
         this.activity = activity;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", temperature=" + temperature +
+                ", humidity=" + humidity +
+                ", noise=" + noise +
+                ", light=" + light +
+                ", peopleCount=" + peopleCount +
+                ", type=" + type +
+                ", activity=" + activity +
+                '}';
+    }
 }
