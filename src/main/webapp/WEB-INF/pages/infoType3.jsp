@@ -170,11 +170,7 @@
                         break;
                 }
             }
-            var activity = $('#activity');
-            activity.html('<span>Lecture Out</span>No activity');
-
         }
-        ;
 
         function init() {
             // Connect to MQTT broker

@@ -72,7 +72,7 @@
             var readings = message.payloadString.split(' ');
             for (x = 0; x < readings.length; x++) {
                 var reading = readings[x].split(':');
-                if (parseInt(reading[0]) == 6) {
+                if (parseInt(reading[0]) == 7) {
                     thenum = parseInt(reading[1]);
                     var plotMqtt = [myEpoch, Number(thenum)]; //create the array
                     if (isNumber(thenum)) { //check if it is a real number and not text
@@ -126,7 +126,7 @@
                     defaultSeriesType: 'spline'
                 },
                 title: {
-                    text: 'MQTT topic - Motion Analog'
+                    text: 'MQTT topic - Noise Analog'
                 },
                 subtitle: {
                     text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic

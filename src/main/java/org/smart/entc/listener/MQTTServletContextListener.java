@@ -225,7 +225,7 @@ public class MQTTServletContextListener
                         list.add(act);
                         break;
                     case 3:
-                        if (node.getPeopleCount() <= 1 && node.getNoise() <= 2) {
+                        if (node.getPeopleCount() <= 1 && node.getNoise() <= 1) {
                             act = 0;
                         } else if (node.getPeopleCount() >= 2 && node.getNoise() >= 4) {
                             act = 1;
@@ -281,7 +281,7 @@ public class MQTTServletContextListener
 
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(500);
             } catch (Exception e) {
                 e.printStackTrace();
             }
