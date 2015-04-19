@@ -39,7 +39,7 @@ public class DBUtil {
                 node.setActivity(resultSet.getInt("activity"));
             }
             resultSet.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -73,7 +73,7 @@ public class DBUtil {
                 nodeList.add(node);
             }
             resultSet.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -99,7 +99,7 @@ public class DBUtil {
                 user.setPassword(resultSet.getString("password"));
             }
             resultSet.close();
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }

@@ -34,7 +34,7 @@ public class DataLayer {
                 , node.getTemperature(), node.getHumidity(), node.getNoise(), node.getLight(), node.getPeopleCount(), node.getName());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            ////con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -50,7 +50,7 @@ public class DataLayer {
                 , node.getTemperature(), node.getName());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            ////con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -66,7 +66,7 @@ public class DataLayer {
                 , node.getHumidity(), node.getName());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -82,7 +82,7 @@ public class DataLayer {
                 , node.getLight(), node.getName());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -98,7 +98,7 @@ public class DataLayer {
                 , node.getNoise(), node.getName());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -114,7 +114,7 @@ public class DataLayer {
                 , node.getPeopleCount(), node.getName());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -130,7 +130,7 @@ public class DataLayer {
                 , node.getActivity(), node.getName());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -145,7 +145,7 @@ public class DataLayer {
                 , node.getName(),node.getTemperature(),node.getHumidity(),node.getNoise(),node.getLight());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "SQLException: " + e);
         }
@@ -159,7 +159,7 @@ public class DataLayer {
                 , node.getName(), node.getType());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -174,7 +174,7 @@ public class DataLayer {
                 , user.getName(), user.getPassword());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
@@ -190,7 +190,7 @@ public class DataLayer {
                 , user.getName(), user.getPassword());
         try {
             result = DBUtil.sqlUpdate(con, sql);
-            con.close();
+            //con.close();
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }

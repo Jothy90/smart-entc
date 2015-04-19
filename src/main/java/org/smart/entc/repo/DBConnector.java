@@ -47,12 +47,19 @@ public class DBConnector {
         return connection;
     }
 
-    /**
-     * @param con
-     */
+    /*
     public static void closeConnection(Connection con) {
         try {
-            con.close();
+            //con.close();
+        } catch (SQLException e) {
+            LOGGER.error("SQL Exception in closing JDBC connection!" + e);
+        }
+    }*/
+
+
+    public static void closeStaticConnection() {
+        try {
+            connection.close();
         } catch (SQLException e) {
             LOGGER.error("SQL Exception in closing JDBC connection!" + e);
         }

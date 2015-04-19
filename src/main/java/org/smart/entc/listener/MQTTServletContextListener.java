@@ -6,6 +6,7 @@ package org.smart.entc.listener;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.LoggerFactory;
+import org.smart.entc.repo.DBConnector;
 import org.smart.entc.repo.DataLayer;
 import org.smart.entc.repo.object.Node;
 
@@ -143,7 +144,7 @@ public class MQTTServletContextListener
         try {
             // wait to ensure subscribed messages are delivered
             Thread.sleep(5000);
-
+            DBConnector.closeStaticConnection();
             myClient.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
@@ -229,13 +230,13 @@ public class MQTTServletContextListener
                                 break;
                             }
                             if (list.size() >= SAMPLE_LENGTH) {
-                                list.removeLast();
+                                list.removeFirst();
                                 change = true;
                             }
                             list.add(act);
                             break;
                         case 2:
-                            if (node.getPeopleCount() <= 2 && node.getNoise() <= 1) {
+                            if (node.getPeopleCount() <= 2 && node.getNoise() <= 2) {
                                 act = 0;
                             } else if (node.getPeopleCount() >= 3 && node.getNoise() >= 3) {
                                 act = 1;
@@ -245,13 +246,13 @@ public class MQTTServletContextListener
                                 break;
                             }
                             if (list.size() >= SAMPLE_LENGTH) {
-                                list.removeLast();
+                                list.removeFirst();
                                 change = true;
                             }
                             list.add(act);
                             break;
                         case 3:
-                            if (node.getPeopleCount() <= 1 && node.getNoise() <= 1) {
+                            if (node.getPeopleCount() <= 2 && node.getNoise() <= 2) {
                                 act = 0;
                             } else if (node.getPeopleCount() >= 2 && node.getNoise() >= 4) {
                                 act = 1;
@@ -261,7 +262,7 @@ public class MQTTServletContextListener
                                 break;
                             }
                             if (list.size() >= SAMPLE_LENGTH) {
-                                list.removeLast();
+                                list.removeFirst();
                                 change = true;
                             }
                             list.add(act);
