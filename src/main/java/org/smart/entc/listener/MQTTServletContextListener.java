@@ -5,6 +5,7 @@ package org.smart.entc.listener;
  */
 
 import org.eclipse.paho.client.mqttv3.*;
+import org.slf4j.LoggerFactory;
 import org.smart.entc.repo.DataLayer;
 import org.smart.entc.repo.object.Node;
 
@@ -17,6 +18,7 @@ public class MQTTServletContextListener
 
     MqttClient myClient;
     MqttConnectOptions connOpt;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MQTTServletContextListener.class);
 
     static final String BROKER_URL = "tcp://192.248.10.70:1883";
     static final String M2MIO_DOMAIN = "Department";
@@ -51,10 +53,10 @@ public class MQTTServletContextListener
             node.setType(1);
             DataLayer.add(node);
         }
-        String msg=new String(mqttMessage.getPayload());
-        msg=msg.replace("4:2","4:0");
-        msg=msg.replace("\r","");
-        msg=msg.replace("\n","");
+        String msg = new String(mqttMessage.getPayload());
+        msg = msg.replace("4:2", "4:0");
+        msg = msg.replace("\r", "");
+        msg = msg.replace("\n", "");
         String[] readings = msg.split(" ");
         for (String ss : readings) {
             String[] reading = ss.split(":");
@@ -107,6 +109,28 @@ public class MQTTServletContextListener
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if(!(msg.contains("6:")||msg.contains("7:"))){
+            //Publish for Applications
+            int pubQoSA = 0;
+            MqttMessage messageA = new MqttMessage(msg.getBytes());
+            messageA.setQos(pubQoSA);
+            messageA.setRetained(false);
+
+            String myTopicA = "Android" + "/" + nodeName;
+            MqttTopic topicA = myClient.getTopic(myTopicA);
+
+            // Publish the message
+            System.out.println("Publishing to topic \"" + topicA + "\" qos " + pubQoSA);
+
+            try {
+                // publish message to broker
+                topicA.publish(messageA);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -133,7 +157,7 @@ public class MQTTServletContextListener
         final MQTTServletContextListener smc = new MQTTServletContextListener();
         smc.runClient();
         System.out.println("ServletContextListener started");
-        new Thread(){
+        new Thread() {
             public void run() {
                 smc.performActivity();
             }
@@ -167,13 +191,14 @@ public class MQTTServletContextListener
         String myTopicENTC1 = M2MIO_DOMAIN + "/ENTC1";
         String myTopicMadam = M2MIO_DOMAIN + "/Madam";
         String myTopicMicro = M2MIO_DOMAIN + "/Micro";
-        String[] myTopics=new String[]{myTopicENTC1,myTopicMadam,myTopicMicro};
+        String[] myTopics = new String[]{myTopicENTC1, myTopicMadam, myTopicMicro};
         // subscribe to topic if subscriber
 
         try {
-            int[] subQoS = new int[]{0,0,0};
-            myClient.subscribe(myTopics,subQoS);
+            int[] subQoS = new int[]{0, 0, 0};
+            myClient.subscribe(myTopics, subQoS);
         } catch (Exception e) {
+            LOGGER.error("Exception occurred in Perform runClient() Subscribe"+e);
             e.printStackTrace();
         }
     }
@@ -181,108 +206,116 @@ public class MQTTServletContextListener
     private void performActivity() {
         Map<String, LinkedList<Integer>> activityMap = new HashMap<String, LinkedList<Integer>>();
         while (true) {
-            List<Node> nodes = DataLayer.getNodeList();
+            try {
+                List<Node> nodes = DataLayer.getNodeList();
 
-            for (Node node : nodes) {
-                LinkedList<Integer> list = activityMap.get(node.getName());
-                if (list == null) {
-                    list = new LinkedList<Integer>();
-                    activityMap.put(node.getName(), list);
-                }
-                boolean change = false;
-                switch (node.getType()) {
-                    case 1:
-                        int act;
-                        if (node.getPeopleCount() == 0 && node.getNoise() <= 1) {
-                            act = 0;
-                        } else if (node.getPeopleCount() == 1) {
-                            act = 1;
-                        } else if (node.getPeopleCount() > 1 && node.getNoise() > 0) {
-                            act = 2;
-                        } else {
-                            break;
-                        }
-                        if (list.size() >= SAMPLE_LENGTH) {
-                            list.peekLast();
-                            change = true;
-                        }
-                        list.add(act);
-                        break;
-                    case 2:
-                        if (node.getPeopleCount() <= 2 && node.getNoise() <= 1) {
-                            act = 0;
-                        } else if (node.getPeopleCount() >= 3 && node.getNoise() >= 3) {
-                            act = 1;
-                        } else if (node.getPeopleCount() >= 3 && node.getNoise() <= 2) {
-                            act = 2;
-                        } else {
-                            break;
-                        }
-                        if (list.size() >= SAMPLE_LENGTH) {
-                            list.peekLast();
-                            change = true;
-                        }
-                        list.add(act);
-                        break;
-                    case 3:
-                        if (node.getPeopleCount() <= 1 && node.getNoise() <= 1) {
-                            act = 0;
-                        } else if (node.getPeopleCount() >= 2 && node.getNoise() >= 4) {
-                            act = 1;
-                        } else if (node.getPeopleCount() >= 2 && node.getNoise() <= 3) {
-                            act = 2;
-                        } else {
-                            break;
-                        }
-                        if (list.size() >= SAMPLE_LENGTH) {
-                            list.peekLast();
-                            change = true;
-                        }
-                        list.add(act);
-                        break;
-                }
-                if (change) {
-                    int newActivity = -99;
-                    if (Collections.frequency(list, 0) > SAMPLE_LENGTH * PERCENTAGE) {
-                        newActivity = 0;
-                    } else if (Collections.frequency(list, 1) > SAMPLE_LENGTH * PERCENTAGE) {
-                        newActivity = 1;
-                    } else if (Collections.frequency(list, 2) > SAMPLE_LENGTH * PERCENTAGE) {
-                        newActivity = 2;
+                for (Node node : nodes) {
+                    LinkedList<Integer> list = activityMap.get(node.getName());
+                    if (list == null) {
+                        list = new LinkedList<Integer>();
+                        activityMap.put(node.getName(), list);
                     }
-
-                    if (newActivity != node.getActivity()) {
-                        node.setActivity(newActivity);
-                        DataLayer.updateActivity(node);
-
-                        //Publish for Applications
-                        int pubQoS = 0;
-                        MqttMessage message = new MqttMessage(("0:" + newActivity).getBytes());
-                        message.setQos(pubQoS);
-                        message.setRetained(false);
-
-                        String myTopic = M2MIO_DOMAIN_SERVER + "/" + node.getName();
-                        MqttTopic topic = myClient.getTopic(myTopic);
-
-                        // Publish the message
-                        System.out.println("Publishing to topic \"" + topic + "\" qos " + pubQoS);
-
-                        try {
-                            // publish message to broker
-                            topic.publish(message);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    boolean change = false;
+                    switch (node.getType()) {
+                        case 1:
+                            int act;
+                            if (node.getPeopleCount() == 0 && node.getNoise() <= 2) {
+                                act = 0;
+                            } else if (node.getPeopleCount() == 1) {
+                                act = 1;
+                            } else if (node.getPeopleCount() > 1 && node.getNoise() > 1) {
+                                act = 2;
+                            } else {
+                                break;
+                            }
+                            if (list.size() >= SAMPLE_LENGTH) {
+                                list.removeLast();
+                                change = true;
+                            }
+                            list.add(act);
+                            break;
+                        case 2:
+                            if (node.getPeopleCount() <= 2 && node.getNoise() <= 1) {
+                                act = 0;
+                            } else if (node.getPeopleCount() >= 3 && node.getNoise() >= 3) {
+                                act = 1;
+                            } else if (node.getPeopleCount() >= 3 && node.getNoise() <= 2) {
+                                act = 2;
+                            } else {
+                                break;
+                            }
+                            if (list.size() >= SAMPLE_LENGTH) {
+                                list.removeLast();
+                                change = true;
+                            }
+                            list.add(act);
+                            break;
+                        case 3:
+                            if (node.getPeopleCount() <= 1 && node.getNoise() <= 1) {
+                                act = 0;
+                            } else if (node.getPeopleCount() >= 2 && node.getNoise() >= 4) {
+                                act = 1;
+                            } else if (node.getPeopleCount() >= 2 && node.getNoise() <= 3) {
+                                act = 2;
+                            } else {
+                                break;
+                            }
+                            if (list.size() >= SAMPLE_LENGTH) {
+                                list.removeLast();
+                                change = true;
+                            }
+                            list.add(act);
+                            break;
+                    }
+                    if (change) {
+                        int newActivity = -99;
+                        if (Collections.frequency(list, 0) > SAMPLE_LENGTH * PERCENTAGE) {
+                            newActivity = 0;
+                        } else if (Collections.frequency(list, 1) > SAMPLE_LENGTH * PERCENTAGE) {
+                            newActivity = 1;
+                        } else if (Collections.frequency(list, 2) > SAMPLE_LENGTH * PERCENTAGE) {
+                            newActivity = 2;
                         }
 
+                        if (newActivity != -99&&newActivity != node.getActivity()) {
+                            LOGGER.debug("Activity change for "+node.getName()+" "+node.getActivity()+" to "+newActivity);
+                            node.setActivity(newActivity);
+                            DataLayer.updateActivity(node);
+
+                            //Publish for Applications
+                            int pubQoS = 0;
+                            MqttMessage message = new MqttMessage(("0:" + newActivity).getBytes());
+                            message.setQos(pubQoS);
+                            message.setRetained(false);
+
+                            String myTopic = M2MIO_DOMAIN_SERVER + "/" + node.getName();
+                            MqttTopic topic = myClient.getTopic(myTopic);
+
+                            // Publish the message
+                            System.out.println("Publishing to topic \"" + topic + "\" qos " + pubQoS);
+
+                            try {
+                                // publish message to broker
+                                topic.publish(message);
+
+                            } catch (Exception e) {
+                                LOGGER.error("Exception occurred in Perform performActivity() Publish"+e);
+                                e.printStackTrace();
+                            }
+
+                        }
                     }
                 }
+            } catch (Exception e) {
+                LOGGER.error("Exception occurred in Perform performActivity() Main try block as"+e);
+                e.printStackTrace();
             }
 
 
             try {
                 Thread.sleep(500);
             } catch (Exception e) {
+                LOGGER.error("Exception occurred in Perform performActivity() Thread Sleep"+e);
                 e.printStackTrace();
             }
         }
