@@ -133,13 +133,13 @@
                         var activity = $('#activity');
                         switch (parseInt(reading[1])) {
                             case 0:
-                                activity.html('<span>Lecture Out</span>No activity');
+                                activity.html('<span>Lecturer Out</span>No activity');
                                 break;
                             case 1:
-                                activity.html('<span>Lecture In</span>No activity');
+                                activity.html('<span>Lecturer In</span>No activity');
                                 break;
                             case 3:
-                                activity.html('<span>Lecture Out</span>Meeting Going');
+                                activity.html('<span>Lecturer In</span>Meeting Going');
                                 break;
                         }
                         break;
@@ -164,7 +164,7 @@
                     case 4:
                         noOfPeople = noOfPeople + parseInt(reading[1]);
                         var peopleCount = $('#peopleCount');
-                        peopleCount.html(("00" + noOfPeople).slice(-3) + '<span>Peoples</span>');
+                        peopleCount.html(("00" + noOfPeople).slice(-3) + '<span>People</span>');
                         break;
                     case 5:
                         break;
@@ -176,18 +176,18 @@
             // Connect to MQTT broker
             client.connect(options_mqtt);
             var peopleCount = $('#peopleCount');
-            peopleCount.html(("00" + ${node.peopleCount}).slice(-3) + '<span>Peoples</span>');
+            peopleCount.html(("00" + ${node.peopleCount}).slice(-3) + '<span>People</span>');
 
             var activity = $('#activity');
             switch (${node.activity}) {
                 case 0:
-                    activity.html('<span>Lecture Out</span>No activity');
+                    activity.html('<span>Lecturer Out</span>No activity');
                     break;
                 case 1:
-                    activity.html('<span>Lecture In</span>No activity');
+                    activity.html('<span>Lecturer In</span>No activity');
                     break;
                 case 3:
-                    activity.html('<span>Lecture Out</span>Meeting Going');
+                    activity.html('<span>Lecturer In</span>Meeting Going');
                     break;
             }
         }
@@ -394,7 +394,7 @@
                         <div class="top-stats-panel thumbnail">
                             <div id="peopleCount" class="mini-stat-info" style="font-size: 80px; text-align: center">
                                 005
-                                <span>Peoples</span>
+                                <span>People</span>
                             </div>
                         </div>
                         <div>

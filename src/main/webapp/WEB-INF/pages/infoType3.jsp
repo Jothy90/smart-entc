@@ -164,7 +164,7 @@
                     case 4:
                         noOfPeople = noOfPeople + parseInt(reading[1]);
                         var peopleCount = $('#peopleCount');
-                        peopleCount.html(("00" + noOfPeople).slice(-3) + '<span>Peoples</span>');
+                        peopleCount.html(("00" + noOfPeople).slice(-3) + '<span>People</span>');
                         break;
                     case 5:
                         break;
@@ -177,7 +177,7 @@
             client.connect(options_mqtt);
 
             var peopleCount = $('#peopleCount');
-            peopleCount.html(("00" + ${node.peopleCount}).slice(-3) + '<span>Peoples</span>');
+            peopleCount.html(("00" + ${node.peopleCount}).slice(-3) + '<span>People</span>');
 
             var activity = $('#activity');
             switch (${node.activity}) {
@@ -396,7 +396,7 @@
                         <div class="top-stats-panel thumbnail">
                             <div id="peopleCount" class="mini-stat-info" style="font-size: 80px; text-align: center">
                                 005
-                                <span>Peoples</span>
+                                <span>People</span>
                             </div>
                         </div>
                         <div>

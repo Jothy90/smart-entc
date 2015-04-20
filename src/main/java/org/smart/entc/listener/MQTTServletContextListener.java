@@ -64,8 +64,13 @@ public class MQTTServletContextListener
             switch (Integer.parseInt(reading[0])) {
                 case 1:
                     //Temperature
-                    node.setTemperature(Integer.parseInt(reading[1]));
-                    DataLayer.updateNodeTemperature(node);
+                    int newTemp = Integer.parseInt(reading[1]);
+                    if (newTemp > 45) {
+                        msg.replace("1:" + newTemp, "1:" + node.getTemperature());
+                    } else {
+                        node.setTemperature(newTemp);
+                        DataLayer.updateNodeTemperature(node);
+                    }
                     break;
                 case 2:
                     //Humidity
@@ -93,7 +98,7 @@ public class MQTTServletContextListener
 
         //Publish for Applications
         int pubQoS = 0;
-        MqttMessage message =new MqttMessage(msg.getBytes());
+        MqttMessage message = new MqttMessage(msg.getBytes());
         message.setQos(pubQoS);
         message.setRetained(false);
 
@@ -111,8 +116,8 @@ public class MQTTServletContextListener
             e.printStackTrace();
         }
 
-        if(!(msg.contains("6:")||msg.contains("7:"))){
-            //Publish for Applications
+        if (!(msg.contains("6:") || msg.contains("7:"))) {
+            //Publish for Android Applications
             int pubQoSA = 0;
             MqttMessage messageA = new MqttMessage(msg.getBytes());
             messageA.setQos(pubQoSA);
@@ -199,7 +204,7 @@ public class MQTTServletContextListener
             int[] subQoS = new int[]{0, 0, 0};
             myClient.subscribe(myTopics, subQoS);
         } catch (Exception e) {
-            LOGGER.error("Exception occurred in Perform runClient() Subscribe"+e);
+            LOGGER.error("Exception occurred in Perform runClient() Subscribe" + e);
             e.printStackTrace();
         }
     }
@@ -238,10 +243,24 @@ public class MQTTServletContextListener
                         case 2:
                             if (node.getPeopleCount() <= 2 && node.getNoise() <= 2) {
                                 act = 0;
-                            } else if (node.getPeopleCount() >= 3 && node.getNoise() >= 3) {
-                                act = 1;
-                            } else if (node.getPeopleCount() >= 3 && node.getNoise() <= 2) {
-                                act = 2;
+                            } else if (node.getPeopleCount() >= 10) {
+
+                                if (node.getNoise() >= 7 && node.getNoise() <= 9) {
+                                    act = 1;
+                                } else if (node.getNoise() <= 6 || node.getNoise() >= 9) {
+                                    act = 2;
+                                } else {
+                                    break;
+                                }
+
+                            } else if (node.getPeopleCount() < 10) {
+                                if (node.getNoise() >= 6 && node.getNoise() <= 8) {
+                                    act = 1;
+                                } else if (node.getNoise() <= 5 || node.getNoise() >= 9) {
+                                    act = 2;
+                                } else {
+                                    break;
+                                }
                             } else {
                                 break;
                             }
@@ -253,6 +272,35 @@ public class MQTTServletContextListener
                             break;
                         case 3:
                             if (node.getPeopleCount() <= 2 && node.getNoise() <= 2) {
+                                act = 0;
+                            } else if (node.getPeopleCount() >= 10) {
+
+                                if (node.getNoise() >=4) {
+                                    act = 1;
+                                } else if (node.getNoise() <= 4) {
+                                    act = 2;
+                                } else {
+                                    break;
+                                }
+
+                            } else if (node.getPeopleCount() < 10) {
+                                if (node.getNoise() >= 4) {
+                                    act = 1;
+                                } else if (node.getNoise() <= 3) {
+                                    act = 2;
+                                } else {
+                                    break;
+                                }
+                            } else {
+                                break;
+                            }
+                            if (list.size() >= SAMPLE_LENGTH) {
+                                list.removeFirst();
+                                change = true;
+                            }
+                            list.add(act);
+                            break;
+                            /*if (node.getPeopleCount() <= 2 && node.getNoise() <= 2) {
                                 act = 0;
                             } else if (node.getPeopleCount() >= 2 && node.getNoise() >= 4) {
                                 act = 1;
@@ -266,7 +314,7 @@ public class MQTTServletContextListener
                                 change = true;
                             }
                             list.add(act);
-                            break;
+                            break;*/
                     }
                     if (change) {
                         int newActivity = -99;
@@ -278,8 +326,8 @@ public class MQTTServletContextListener
                             newActivity = 2;
                         }
 
-                        if (newActivity != -99&&newActivity != node.getActivity()) {
-                            LOGGER.debug("Activity change for "+node.getName()+" "+node.getActivity()+" to "+newActivity);
+                        if (newActivity != -99 && newActivity != node.getActivity()) {
+                            LOGGER.debug("Activity change for " + node.getName() + " " + node.getActivity() + " to " + newActivity);
                             node.setActivity(newActivity);
                             DataLayer.updateActivity(node);
 
@@ -300,7 +348,7 @@ public class MQTTServletContextListener
                                 topic.publish(message);
 
                             } catch (Exception e) {
-                                LOGGER.error("Exception occurred in Perform performActivity() Publish"+e);
+                                LOGGER.error("Exception occurred in Perform performActivity() Publish" + e);
                                 e.printStackTrace();
                             }
 
@@ -308,7 +356,7 @@ public class MQTTServletContextListener
                     }
                 }
             } catch (Exception e) {
-                LOGGER.error("Exception occurred in Perform performActivity() Main try block as"+e);
+                LOGGER.error("Exception occurred in Perform performActivity() Main try block as" + e);
                 e.printStackTrace();
             }
 
@@ -316,7 +364,7 @@ public class MQTTServletContextListener
             try {
                 Thread.sleep(500);
             } catch (Exception e) {
-                LOGGER.error("Exception occurred in Perform performActivity() Thread Sleep"+e);
+                LOGGER.error("Exception occurred in Perform performActivity() Thread Sleep" + e);
                 e.printStackTrace();
             }
         }
