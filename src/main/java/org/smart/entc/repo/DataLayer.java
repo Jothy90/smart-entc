@@ -5,10 +5,13 @@ package org.smart.entc.repo;
 
 import com.mysql.jdbc.Connection;
 import org.slf4j.LoggerFactory;
+import org.smart.entc.repo.object.Activity;
 import org.smart.entc.repo.object.Node;
 import org.smart.entc.repo.object.User;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class DataLayer {
@@ -134,7 +137,21 @@ public class DataLayer {
         } catch (SQLException e) {
             LOGGER.error("SQLException: " + e);
         }
-        return result;
+
+        Date date = new Date();
+        String timeStamp = new Timestamp(date.getTime()).toString();
+        int resultAct = 0;
+        sql = String.format("INSERT INTO activity_list (name,time_stamp,activity)" +
+                " VALUES (\"%s\",\"%s\",\"%d\")"
+                , node.getName(), timeStamp, node.getActivity());
+        try {
+            resultAct = DBUtil.sqlUpdate(con, sql);
+            //con.close();
+        } catch (SQLException e) {
+            LOGGER.error("SQLException: " + e);
+        }
+
+        return result*resultAct;
     }
 
     /*public static int add(Node node) {
@@ -200,5 +217,10 @@ public class DataLayer {
     public static List<Node> getNodeList() {
         String sql = String.format("SELECT * FROM node");
         return DBUtil.getNodeList(sql);
+    }
+
+    public static List<Activity> getActivityList() {
+        String sql = String.format("SELECT * FROM activity_list");
+        return DBUtil.getActivityList(sql);
     }
 }

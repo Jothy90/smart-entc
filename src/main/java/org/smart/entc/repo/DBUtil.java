@@ -2,6 +2,7 @@ package org.smart.entc.repo;
 
 import com.mysql.jdbc.Connection;
 import org.slf4j.LoggerFactory;
+import org.smart.entc.repo.object.Activity;
 import org.smart.entc.repo.object.Node;
 import org.smart.entc.repo.object.User;
 
@@ -127,5 +128,27 @@ public class DBUtil {
         Statement stmt = con.createStatement();
         resultInt = stmt.executeUpdate(sql);
         return resultInt;
+    }
+
+    public static List<Activity> getActivityList(String sql) {
+        List<Activity> activityList = new ArrayList<Activity>();
+        Activity activity;
+        try {
+            Connection con = DBConnector.getConnection();
+            ResultSet resultSet = sqlQuery(con, sql);
+            while (resultSet.next()) {
+                activity = new Activity();
+                activity.setId(resultSet.getInt("id"));
+                activity.setName(resultSet.getString("name"));
+                activity.setTimeStamp(resultSet.getString("time_stamp"));
+                activity.setActivity(resultSet.getInt("activity"));
+                activityList.add(activity);
+            }
+            resultSet.close();
+            //con.close();
+        } catch (SQLException e) {
+            LOGGER.error("SQLException: " + e);
+        }
+        return activityList;
     }
 }

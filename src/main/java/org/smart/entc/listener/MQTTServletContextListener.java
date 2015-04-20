@@ -245,18 +245,18 @@ public class MQTTServletContextListener
                                 act = 0;
                             } else if (node.getPeopleCount() >= 10) {
 
-                                if (node.getNoise() >= 7 && node.getNoise() <= 9) {
+                                if (node.getNoise() >= 5 && node.getNoise() <= 6) {
                                     act = 1;
-                                } else if (node.getNoise() <= 6 || node.getNoise() >= 9) {
+                                } else if (node.getNoise() <= 4 || node.getNoise() >6) {
                                     act = 2;
                                 } else {
                                     break;
                                 }
 
                             } else if (node.getPeopleCount() < 10) {
-                                if (node.getNoise() >= 6 && node.getNoise() <= 8) {
+                                if (node.getNoise() >=5 && node.getNoise() <= 6) {
                                     act = 1;
-                                } else if (node.getNoise() <= 5 || node.getNoise() >= 9) {
+                                } else if (node.getNoise() <= 4 || node.getNoise() >6) {
                                     act = 2;
                                 } else {
                                     break;
