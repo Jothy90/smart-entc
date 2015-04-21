@@ -139,7 +139,7 @@
                                 activity.html('<span>Students are presence</span>No activity');
                                 break;
                             case 2:
-                                activity.html('<span>Lecture is Going</span>Activity Happening');
+                                activity.html('<span>Lecture is on Going</span>Activity Happening');
                                 break;
                         }
                         break;
@@ -189,7 +189,7 @@
                     activity.html('<span>Students are presence</span>No activity');
                     break;
                 case 2:
-                    activity.html('<span>Lecture is Going</span>Activity Happening');
+                    activity.html('<span>Lecture is on Going</span>Activity Happening');
                     break;
             }
 
